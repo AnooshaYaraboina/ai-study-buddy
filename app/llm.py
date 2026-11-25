@@ -19,6 +19,7 @@ from dataclasses import dataclass, field
 from typing import Any, Callable, Iterator
 
 import anthropic
+from anthropic.lib.middleware import BetaRefusalFallbackMiddleware
 
 from app.config import get_settings
 from app.observability import tracer
@@ -34,6 +35,10 @@ PRICES = {
     "claude-fable-5-2": (8.0, 40.0),
 }
 FALLBACK_BETA = "server-side-fallback-2026-07-01"
+SERVER_FALLBACK_MODELS = {"claude-sonnet-5-5", "claude-opus-5-5", "claude-opus-5",
+                          "claude-fable-5-2", "claude-fable-5-1"}
+# Bedrock has no server-side `fallbacks`: the SDK middleware retries a refusal client-side
+CLIENT_FALLBACK = {"claude-opus-5-5": "claude-opus-5", "claude-sonnet-5-5": "claude-sonnet-5"}
 RETRYABLE = (
     anthropic.APIConnectionError,  # includes APITimeoutError
     anthropic.RateLimitError,
@@ -55,8 +60,14 @@ class LLMResult:
     raw: Any = field(default=None, repr=False)
 
 
+def bedrock_id(model: str) -> str:
+    """Claude in Amazon Bedrock model IDs carry an ``anthropic.`` prefix."""
+    return model if model.startswith("anthropic.") else f"anthropic.{model}"
+
+
 def cost_of(model: str, in_tok: int, out_tok: int, cache_read: int = 0) -> float:
-    pin, pout = PRICES.get(model, (2.0, 10.0))
+    """Approximate cost at first-party list prices (Bedrock bills at its own rates)."""
+    pin, pout = PRICES.get(model.removeprefix("anthropic."), (2.0, 10.0))
     return round((in_tok * pin + cache_read * pin * 0.1 + out_tok * pout) / 1e6, 6)
 
 
@@ -64,15 +75,25 @@ class LLM:
     def __init__(self) -> None:
         s = get_settings()
         self.settings = s
-        self.model = s.llm_model
-        self.offline = s.llm_offline
+        self.provider = s.llm_provider  # anthropic | bedrock | offline
+        self.offline = self.provider == "offline"
+        self.model = bedrock_id(s.llm_model) if self.provider == "bedrock" else s.llm_model
         self.totals = {"requests": 0, "input_tokens": 0, "output_tokens": 0, "cost_usd": 0.0}
         self._client = None
-        if not self.offline:
-            # we own the retry loop (explicit backoff + logging), so SDK retries = 0
+        # we own the retry loop (explicit backoff + logging), so SDK retries = 0
+        if self.provider == "anthropic":
             self._client = anthropic.Anthropic(
                 api_key=s.anthropic_api_key, timeout=s.llm_timeout_s, max_retries=0
             )
+        elif self.provider == "bedrock":
+            fallback = CLIENT_FALLBACK.get(s.llm_model)
+            middleware = ([BetaRefusalFallbackMiddleware([{"model": bedrock_id(fallback)}])]
+                          if fallback and s.llm_refusal_fallback else [])
+            self._client = anthropic.AnthropicBedrockMantle(
+                api_key=s.aws_bearer_token, aws_region=s.aws_region,
+                timeout=s.llm_timeout_s, max_retries=0, middleware=middleware,
+            )
+        log.info("LLM provider=%s model=%s", self.provider, self.model)
 
     # ------------------------------------------------------------ helpers
     def _params(self, system: str, messages: list[dict], max_tokens: int,
@@ -87,8 +108,8 @@ class LLM:
             messages=messages,
             output_config=output_config,
         )
-        if self.model in ("claude-sonnet-5-5", "claude-opus-5-5", "claude-opus-5",
-                          "claude-fable-5-2", "claude-fable-5-1"):
+        if self.provider == "anthropic" and self.model in SERVER_FALLBACK_MODELS \
+                and self.settings.llm_refusal_fallback:
             params["betas"] = [FALLBACK_BETA]
             params["fallbacks"] = "default"
         return params
@@ -158,6 +179,8 @@ class LLM:
                     with self._client.beta.messages.stream(**params) as stream:
                         msg = stream.get_final_message()
                     res = self._result_from(msg)
+                    if res.stop_reason == "refusal" and not res.text.strip():
+                        res.text = offline()  # declined: answer from the notes instead
                     break
                 except RETRYABLE as e:
                     if attempt > self.settings.llm_max_retries:
@@ -205,6 +228,9 @@ class LLM:
                             yield delta
                         msg = stream.get_final_message()
                     res = self._result_from(msg)
+                    if res.stop_reason == "refusal" and not yielded:
+                        res.text = offline()  # declined: answer from the notes instead
+                        yield res.text
                     break
                 except RETRYABLE as e:
                     if yielded or attempt > self.settings.llm_max_retries:

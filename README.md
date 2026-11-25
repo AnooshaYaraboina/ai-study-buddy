@@ -20,7 +20,7 @@ Source: [`docs/architecture.drawio`](docs/architecture.drawio) (open in draw.io 
 ### Docker (all services)
 
 ```bash
-cp .env.example .env            # add ANTHROPIC_API_KEY (optional, see "Offline mode")
+cp .env.example .env            # add ANTHROPIC_API_KEY or AWS_BEARER_TOKEN_BEDROCK (optional, see below)
 docker compose up --build       # chroma + api + ui
 ```
 
@@ -42,15 +42,29 @@ streamlit run ui/app.py                              # UI on :8501
 python -m app.mcp_server                             # notes MCP server (stdio)
 ```
 
+### Choosing the LLM
+
+`app/llm.py` picks a provider from `.env` (override with `LLM_PROVIDER=anthropic|bedrock`):
+
+| You set | Provider | Model ID sent |
+|---|---|---|
+| `ANTHROPIC_API_KEY` | Claude API (with server-side refusal fallback) | `claude-opus-5-5` |
+| `AWS_BEARER_TOKEN_BEDROCK` (+ `AWS_REGION`, default `us-east-1`) | Claude in Amazon Bedrock (`bedrock-mantle` endpoint; refusal fallback to Claude Opus 5 through the SDK middleware) | `anthropic.claude-opus-5-5` |
+| neither, or `LLM_OFFLINE=1` | offline mode (below) | — |
+
+The model is `LLM_MODEL` (default `claude-opus-5-5`). On Bedrock, the account must have the model in that region: Claude Sonnet 5.5, for example, was not available in `us-east-1` for the account this was built on. With Claude, a tutor answer costs about $0.025 and a 5-question quiz about $0.04 (first-party list prices; Bedrock bills at its own rates). Every request's tokens and cost are logged to `logs/llm_usage.jsonl`.
+
+If Claude declines a request even after the fallback, the tutor answers from the notes in offline mode instead of returning an empty reply.
+
 ### Offline mode
 
-With no `ANTHROPIC_API_KEY` (or `LLM_OFFLINE=1`) the whole app still runs. The LLM wrapper falls back to deterministic stubs, and tests and CI use this mode, so they need no secrets:
+With no credentials (or `LLM_OFFLINE=1`) the whole app still runs. The LLM wrapper falls back to deterministic stubs, and tests and CI use this mode, so they need no secrets:
 
 - **Answers (`app/answer.py`):** composed from the notes. The top passages are split into sentences, "Term: meaning" items and Q/A flashcards. Each is scored against the question (cross-encoder + embeddings), and the tutor writes a lead answer plus key points. Steps stay in page order for "stages / steps / becomes" questions, and every line is cited.
 - **Quizzes:** built from the notes' own flashcards and definitions; wrong options are answers to other questions in the notes.
 - **Rewrite, summary and grading:** rule-based.
 
-Set the key to get Claude-written explanations (`LLM_MODEL`, default `claude-sonnet-5-5`). The same citation rules and source panel apply.
+Add credentials (see "Choosing the LLM") to get Claude-written explanations. The same citation rules and source panel apply.
 
 Ingestion rebuilds readable lines from the PDF layout (`app/ingest/layout.py`). It joins wrapped sentences (including centred captions that the PDF splits into blocks), attaches labels to their text (`ENTRY` + "hostile content arrives…", or a bold term on the same row as its definition), and keeps reading order. This is why answers and source passages read as full sentences.
 
@@ -72,7 +86,7 @@ What is the capital of France?     ← "That's not in my notes."
 | # | Feature | Where | What was built |
 |---|---|---|---|
 | 1 | Prompt design | `app/prompts.py` | Tutor answers only from `<notes>`, cites `[file p.N]`, otherwise says *"not in my notes"*; quiz prompt + JSON schema (question, 4 options, answer, explanation, source) |
-| 2 | LLM API layer | `app/llm.py` | One wrapper: streaming, timeout, 2 retries with exponential backoff and jitter, tokens and cost logged per request (`logs/llm_usage.jsonl` + span attributes), server-side refusal fallback |
+| 2 | LLM API layer | `app/llm.py` | One wrapper for the Claude API or Claude in Amazon Bedrock: streaming, timeout, 2 retries with exponential backoff and jitter, tokens and cost logged per request (`logs/llm_usage.jsonl` + span attributes), refusal fallback (server-side on the Claude API, SDK middleware on Bedrock) |
 | 3 | Ingestion | `app/ingest/pdf_loader.py` | Page-by-page text with metadata **file, day, page, heading** (+ topic); running headers removed; optional `data/pdfs/manifest.json` for day ranges |
 | 4 | Chunking | `app/ingest/chunker.py` | Heading-aware, about 500 tokens, 60-token prose overlap; **lists and tables are atomic**; never crosses a page |
 | 5 | Embeddings | `app/ingest/embedder.py` | One model (`all-MiniLM-L6-v2`); `embed_model` stored on every vector and on the collection; a model mismatch raises `ReindexRequired` |

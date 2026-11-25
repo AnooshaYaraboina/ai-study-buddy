@@ -31,11 +31,23 @@ def _tokens(raw: str) -> dict[str, str]:
 class Settings:
     # LLM
     anthropic_api_key: str = field(default_factory=lambda: _env("ANTHROPIC_API_KEY"))
-    llm_model: str = field(default_factory=lambda: _env("LLM_MODEL", "claude-sonnet-5-5"))
+    llm_model: str = field(default_factory=lambda: _env("LLM_MODEL", "claude-opus-5-5"))
     llm_effort: str = field(default_factory=lambda: _env("LLM_EFFORT", "low"))
     llm_timeout_s: float = field(default_factory=lambda: float(_env("LLM_TIMEOUT_S", "60")))
     llm_max_retries: int = field(default_factory=lambda: int(_env("LLM_MAX_RETRIES", "2")))
     llm_offline_flag: bool = field(default_factory=lambda: _env("LLM_OFFLINE", "0") == "1")
+    # auto: Anthropic API if ANTHROPIC_API_KEY is set, else Claude in Amazon Bedrock if
+    # AWS_BEARER_TOKEN_BEDROCK is set, else offline
+    llm_provider_pref: str = field(default_factory=lambda: _env("LLM_PROVIDER", "auto").lower())
+    aws_bearer_token: str = field(
+        default_factory=lambda: _env("AWS_BEARER_TOKEN_BEDROCK") or _env("ANTHROPIC_AWS_API_KEY")
+    )
+    aws_region: str = field(
+        default_factory=lambda: _env("AWS_REGION") or _env("AWS_DEFAULT_REGION") or "us-east-1"
+    )
+    llm_refusal_fallback: bool = field(
+        default_factory=lambda: _env("LLM_REFUSAL_FALLBACK", "1") == "1"
+    )
 
     # Retrieval
     embed_model: str = field(
@@ -79,12 +91,27 @@ class Settings:
     )
     otlp_endpoint: str = field(default_factory=lambda: _env("OTEL_EXPORTER_OTLP_ENDPOINT"))
 
+    @staticmethod
+    def _real(secret: str) -> bool:
+        return bool(secret) and not secret.endswith("...") and "your" not in secret.lower()
+
+    @property
+    def llm_provider(self) -> str:
+        """anthropic | bedrock | offline"""
+        if self.llm_offline_flag:
+            return "offline"
+        has_api, has_bedrock = self._real(self.anthropic_api_key), self._real(self.aws_bearer_token)
+        pref = self.llm_provider_pref
+        if pref == "anthropic":
+            return "anthropic" if has_api else "offline"
+        if pref == "bedrock":
+            return "bedrock" if has_bedrock else "offline"
+        return "anthropic" if has_api else "bedrock" if has_bedrock else "offline"
+
     @property
     def llm_offline(self) -> bool:
-        """Offline stub when forced, or when there is no real API key."""
-        key = self.anthropic_api_key
-        placeholder = not key or key.endswith("...") or "your" in key.lower()
-        return self.llm_offline_flag or placeholder
+        """Offline stub when forced, or when there are no real credentials."""
+        return self.llm_provider == "offline"
 
 
 @lru_cache(maxsize=1)

@@ -102,8 +102,9 @@ def _out(state: dict) -> dict:
 
 @app.get("/health")
 def health() -> dict:
-    return {"status": "ok", "chunks": get_store().count(), "llm_model": get_llm().model,
-            "llm_offline": get_llm().offline}
+    llm = get_llm()
+    return {"status": "ok", "chunks": get_store().count(), "llm_provider": llm.provider,
+            "llm_model": llm.model, "llm_offline": llm.offline}
 
 
 @app.post("/chat")
