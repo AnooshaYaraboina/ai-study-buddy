@@ -81,8 +81,10 @@ class Settings:
 
     @property
     def llm_offline(self) -> bool:
-        """Offline stub when forced, or when there is no API key at all."""
-        return self.llm_offline_flag or not self.anthropic_api_key
+        """Offline stub when forced, or when there is no real API key."""
+        key = self.anthropic_api_key
+        placeholder = not key or key.endswith("...") or "your" in key.lower()
+        return self.llm_offline_flag or placeholder
 
 
 @lru_cache(maxsize=1)
