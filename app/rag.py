@@ -53,7 +53,7 @@ def extractive_answer(question: str, hits: list[dict], max_sents: int = 4) -> st
     scored = []
     for rank, h in enumerate(hits):
         lines = [ln.strip() for ln in h["text"].split("\n")[1:]
-                 if len(ln.strip()) > 25 and len(ln.split()) >= 5]
+                 if len(ln.strip()) > 25 and len(ln.split()) >= 5 and " · " not in ln]
         for ln in lines:
             overlap = len(q & _terms(ln))
             if overlap:
