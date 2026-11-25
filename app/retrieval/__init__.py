@@ -25,5 +25,8 @@ class Retriever:
 
 
 @lru_cache(maxsize=1)
-def get_retriever() -> Retriever:
-    return Retriever()
+def get_retriever():
+    """Default retriever: hybrid (BM25 + vector) -> cross-encoder rerank."""
+    from app.retrieval.hybrid import HybridRetriever
+
+    return HybridRetriever()
