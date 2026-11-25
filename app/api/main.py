@@ -91,6 +91,7 @@ def _out(state: dict) -> dict:
         "route": state.get("route"),
         "reply": state.get("reply", ""),
         "citations": state.get("citations", []),
+        "sources": state.get("sources", []),
         "refused": state.get("refused", False),
         "quiz": public_quiz(state.get("quiz")),
         "grade": state.get("grade"),

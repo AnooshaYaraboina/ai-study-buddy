@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import uuid
 
 import httpx
@@ -78,11 +79,54 @@ with st.sidebar:
     st.caption("Try: *What is memory poisoning?* · *explain that again* · *quiz me on "
                "prompt injection* · *quiz me* · *how am I doing?*")
 
+# ------------------------------------------------------------------ rendering
+CITE_RE = re.compile(r"\[([^\[\]]+?\.pdf) p\.(\d+)\]")
+_MD_SPECIAL = re.compile(r"([\\`*_{}\[\]<>#+\-!|~])")
+
+
+def show_reply(text: str) -> str:
+    """Answer text with each [file p.N] reference shown as a soft grey page tag."""
+    return CITE_RE.sub(lambda m: f":gray[(📄 {m.group(1)} · p.{m.group(2)})]", text)
+
+
+def passage_md(text: str) -> str:
+    """A retrieved note passage as readable markdown (headings bold, line breaks kept)."""
+    out = []
+    for ln in text.split("\n")[1:]:  # line 0 is the chunk title
+        ln = ln.strip()
+        if not ln or (" · " in ln and len(ln.split()) <= 12):
+            continue
+        if ln.startswith("▸"):
+            out.append(f"**{_MD_SPECIAL.sub(r'\\\1', ln.lstrip('▸ '))}**")
+        else:
+            out.append(_MD_SPECIAL.sub(r"\\\1", ln).replace(" \\-\\> ", " → "))
+    return "  \n".join(out)
+
+
+def show_sources(sources: list[dict]) -> None:
+    if not sources:
+        return
+    with st.expander(f"📄 Read the source pages ({len(sources)})"):
+        for s in sources:
+            topic = f" · {s['topic']}" if s.get("topic") else ""
+            st.markdown(f"**{s['file']} — page {s['page']}**{topic}")
+            st.markdown(passage_md(s["text"]))
+            st.divider()
+
+
+def show_message(m: dict) -> None:
+    if m["role"] == "assistant":
+        st.markdown(show_reply(m["content"]))
+        show_sources(m.get("sources") or [])
+    else:
+        st.markdown(m["content"])
+
+
 # ------------------------------------------------------------------ chat
 st.header("Ask your notes")
 for m in ss.messages:
     with st.chat_message(m["role"]):
-        st.markdown(m["content"])
+        show_message(m)
 
 
 def send(text: str) -> None:
@@ -122,8 +166,10 @@ def send(text: str) -> None:
             reply = reply.split("\n\n**Q1.")[0]
         elif final and final.get("grade"):
             ss.quiz = None
-        box.markdown(reply)
-        ss.messages.append({"role": "assistant", "content": reply})
+        sources = (final or {}).get("sources") or []
+        box.markdown(show_reply(reply))
+        show_sources(sources)
+        ss.messages.append({"role": "assistant", "content": reply, "sources": sources})
 
 
 if ss.quiz:

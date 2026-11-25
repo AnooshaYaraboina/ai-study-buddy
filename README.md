@@ -4,7 +4,7 @@ A tutor that answers from your course PDFs **with citations**, **quizzes you**, 
 
 | What it does | How |
 |---|---|
-| **Ask with citations** | Answers only from the notes and cites file + page, e.g. `[Day_22_23_AI_Security_Visual_Notes.pdf p.10]`; anything else gets *"That's not in my notes."* |
+| **Ask with citations** | Writes the full answer in the chat (a direct answer + key points), every line ending with its file + page, e.g. `[Day_22_23_AI_Security_Visual_Notes.pdf p.10]`. Under each answer, **📄 Read the source pages** shows the note text of every cited page. Anything outside the notes gets *"That's not in my notes."* |
 | **Quiz me** | 5 multiple-choice questions on a topic (strict JSON), graded with score + feedback |
 | **Track weak topics** | Missed questions update per-student weak topics in SQLite; *"quiz me"* in a later session picks the weakest one |
 | **Add new notes** | Upload a PDF in the UI → sanitized, chunked, embedded, searchable (private to you) |
@@ -44,7 +44,15 @@ python -m app.mcp_server                             # notes MCP server (stdio)
 
 ### Offline mode
 
-With no `ANTHROPIC_API_KEY` (or `LLM_OFFLINE=1`) the whole app still runs. The LLM wrapper falls back to deterministic stubs: an extractive cited tutor, a quiz generator built from the notes, and rule-based rewrite, summary and grading. Tests and CI use this mode, so they need no secrets. Set the key to get Claude (`LLM_MODEL`, default `claude-sonnet-5-5`).
+With no `ANTHROPIC_API_KEY` (or `LLM_OFFLINE=1`) the whole app still runs. The LLM wrapper falls back to deterministic stubs, and tests and CI use this mode, so they need no secrets:
+
+- **Answers (`app/answer.py`):** composed from the notes. The top passages are split into sentences, "Term: meaning" items and Q/A flashcards. Each is scored against the question (cross-encoder + embeddings), and the tutor writes a lead answer plus key points. Steps stay in page order for "stages / steps / becomes" questions, and every line is cited.
+- **Quizzes:** built from the notes' own flashcards and definitions; wrong options are answers to other questions in the notes.
+- **Rewrite, summary and grading:** rule-based.
+
+Set the key to get Claude-written explanations (`LLM_MODEL`, default `claude-sonnet-5-5`). The same citation rules and source panel apply.
+
+Ingestion rebuilds readable lines from the PDF layout (`app/ingest/layout.py`). It joins wrapped sentences (including centred captions that the PDF splits into blocks), attaches labels to their text (`ENTRY` + "hostile content arrives…", or a bold term on the same row as its definition), and keeps reading order. This is why answers and source passages read as full sentences.
 
 ### Try it
 
@@ -69,7 +77,7 @@ What is the capital of France?     ← "That's not in my notes."
 | 4 | Chunking | `app/ingest/chunker.py` | Heading-aware, about 500 tokens, 60-token prose overlap; **lists and tables are atomic**; never crosses a page |
 | 5 | Embeddings | `app/ingest/embedder.py` | One model (`all-MiniLM-L6-v2`); `embed_model` stored on every vector and on the collection; a model mismatch raises `ReindexRequired` |
 | 6 | Vector DB | `app/vector_store.py` | Chroma `course_notes`, cosine; filters `day`, `topic`, `owner`; **upsert by deterministic chunk ID** + stale-chunk cleanup |
-| 7 | RAG + citations | `app/rag.py` | Top-5 → cited answer; refuses below the threshold (two signals: rerank ≥ 0.25, or rerank ≥ 0.03 with vector ≥ 0.45); citations checked against the retrieved set |
+| 7 | RAG + citations | `app/rag.py`, `app/answer.py` | Top-5 → full cited answer (lead + key points, `[file p.N]` on every line) + the cited passages returned as `sources` for the UI; refuses below the threshold (two signals: rerank ≥ 0.25, or rerank ≥ 0.03 with vector ≥ 0.45); citations checked against the retrieved set |
 | 8 | Advanced retrieval | `app/retrieval/` | BM25 + vector → RRF → cross-encoder rerank (`ms-marco-MiniLM-L-6-v2`); follow-up rewrite (`explain that again` → full question) |
 | 9 | Tool-calling agent | `app/agents/tools.py` | Typed (pydantic) tools `search_notes`, `make_quiz`, `save_flashcard`, `get_progress`; `student_id` comes from auth context, never from tool args; Claude tool loop capped at 4 steps |
 | 10 | Multi-agent flow | `app/agents/graph.py` | LangGraph: `load_memory → supervisor → tutor \| quiz_maker \| grader \| tools → save_memory`; grader returns score + feedback |
@@ -81,21 +89,21 @@ What is the capital of France?     ← "That's not in my notes."
 
 ## Evaluation results
 
-`python -m eval.run_eval --gate` (offline mode, 253 chunks; full report in [`eval/report.md`](eval/report.md)):
+`python -m eval.run_eval --gate` (offline mode, 207 chunks; full report in [`eval/report.md`](eval/report.md)):
 
 | Metric | Result | Gate |
 |---|---|---|
 | **recall@5** (gold page in top 5) | **1.000** | ≥ 0.80 ✅ |
-| strict recall@5 / MRR@5 | 0.861 / 1.000 | — |
+| strict recall@5 / MRR@5 | 0.828 / 0.983 | — |
 | citation rate (answers citing file + page) | 1.000 | = 1.00 ✅ |
 | citation validity (cited page was retrieved) | 1.000 | — |
-| faithfulness (claims supported by cited notes) | 0.917 | ≥ 0.80 ✅ |
+| faithfulness (claims supported by cited notes) | 1.000* | ≥ 0.80 ✅ |
 | off-topic → "not in my notes" | 6 / 6 | = 1.00 ✅ |
 | false refusals on answerable questions | 0 / 30 | — |
 
-Retrieval ablation (strict recall@5 / MRR@5): vector only 0.794 / 0.961 → hybrid 0.843 / 0.983 → hybrid + rerank **0.861 / 1.000**.
+Retrieval ablation (strict recall@5 / MRR@5): vector only 0.772 / 0.889 → hybrid 0.850 / 1.000 → hybrid + rerank 0.828 / 0.983. Hybrid search is the big gain. On this golden set the reranker's own contribution is small (it slightly lowers strict recall), but its score is what powers the "not in my notes" refusal gate.
 
-Caveats: gold pages were labelled from the PDF text, not from retriever output. The refusal thresholds were tuned on this set plus about 25 off-topic probes, so the refusal numbers are optimistic. Offline faithfulness uses a word-overlap check; run `--judge` with an API key for a Claude judge.
+Caveats: gold pages were labelled from the PDF text, not from retriever output. The refusal thresholds were tuned on this set plus about 25 off-topic probes, so the refusal numbers are optimistic. \*Offline answers quote the notes, so word-overlap faithfulness is close to 1 by construction. The meaningful faithfulness check is Claude answers judged by Claude: set the API key and run `--judge`.
 
 ## Acceptance criteria
 
@@ -117,9 +125,10 @@ app/
   api/main.py          FastAPI: auth · guards · rate limit · SSE · traces
   agents/graph.py      LangGraph supervisor → tutor | quiz-maker | grader | tools
   agents/{quiz,grader,tools}.py
-  ingest/              pdf_loader · sanitize · chunker · embedder · pipeline (python -m app.ingest)
+  ingest/              pdf_loader · layout (readable lines) · sanitize · chunker · embedder · pipeline
   retrieval/           vector · hybrid (BM25+RRF+rerank) · rewrite
-  rag.py prompts.py llm.py memory.py db.py guards.py vector_store.py observability.py mcp_server.py
+  rag.py answer.py     cited answers (+ no-LLM answer composer) · source passages
+  prompts.py llm.py memory.py db.py guards.py vector_store.py observability.py mcp_server.py
 ui/app.py              Streamlit chat UI
 eval/                  golden_set.jsonl · run_eval.py · report.md
 tests/                 chunker · quiz parser · guards · api · mcp · diagram

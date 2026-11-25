@@ -39,6 +39,18 @@ def test_answer_cites_file_and_page(client):
     assert "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.4" in r["reply"]
 
 
+def test_answer_is_readable_and_ships_its_source_passages(client):
+    r = client.post("/chat", headers=A, json={"message": "what is llm", "session_id": "t1b"}).json()
+    # the answer itself is in the chat, not just a page reference
+    assert "Neural network trained to estimate likely token sequences" in r["reply"]
+    assert "[Days_01_21_Master_Revision_Handbook.pdf p.7]" in r["reply"]
+    # every cited page comes with the note text so it can be read in the UI
+    cited = {s["citation"] for s in r["sources"]}
+    assert cited == set(r["citations"])
+    src = next(s for s in r["sources"] if s["page"] == 7)
+    assert "Large language model (LLM)" in src["text"]
+
+
 def test_off_topic_is_not_in_my_notes(client):
     r = client.post("/chat", headers=A, json={"message": "What is the capital of France?",
                                               "session_id": "t1"}).json()

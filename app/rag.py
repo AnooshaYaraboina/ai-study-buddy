@@ -13,13 +13,6 @@ from app.prompts import NOT_IN_NOTES, TUTOR_SYSTEM, TUTOR_USER
 from app.retrieval import Retriever, get_retriever
 
 CITE_RE = re.compile(r"\[([^\[\]]+?\.pdf) p\.(\d+)\]")
-_WORD = re.compile(r"[a-z0-9]+")
-_STOP = set("""a an the and or of to in on for is are was were be been what which who how why
-when where does do did can could should would i me my you your it its this that these those
-with as at by from about explain tell describe define meaning mean give example vs versus
-between difference please again more""".split())
-
-
 def cite(meta: dict) -> str:
     return f"[{meta['file']} p.{meta['page']}]"
 
@@ -32,6 +25,7 @@ class Answer:
     refused: bool = False
     best_score: float = 0.0
     question: str = ""
+    sources: list[dict] = field(default_factory=list)
 
 
 def format_notes(hits: list[dict], max_chars: int = 1800) -> str:
@@ -43,43 +37,26 @@ def format_notes(hits: list[dict], max_chars: int = 1800) -> str:
     return "\n".join(out)
 
 
-def _terms(text: str) -> set[str]:
-    return {w for w in _WORD.findall(text.lower()) if w not in _STOP and len(w) > 2}
+def extractive_answer(question: str, hits: list[dict]) -> str:
+    """No-LLM tutor answer: a readable answer composed from the notes (see app/answer.py)."""
+    from app.answer import compose_answer
+
+    return compose_answer(question, hits)
 
 
-def extractive_answer(question: str, hits: list[dict], max_sents: int = 4) -> str:
-    """Offline tutor: best-matching sentences from the notes, each cited."""
-    q = _terms(question)
-    scored = []
-    for rank, h in enumerate(hits):
-        lines = [ln.strip() for ln in h["text"].split("\n")[1:]
-                 if len(ln.strip()) > 25 and len(ln.split()) >= 5 and " · " not in ln]
-        for ln in lines:
-            overlap = len(q & _terms(ln))
-            if overlap:
-                bonus = 0.5 if ln.rstrip().endswith((".", ")")) else 0.0
-                scored.append((overlap + bonus - rank * 0.3, ln, cite(h["metadata"])))
-    if not scored:  # fall back to the first lines of the top hit
-        h = hits[0]
-        lines = [ln for ln in h["text"].split("\n")[1:] if len(ln) > 25][:2]
-        scored = [(0, ln, cite(h["metadata"])) for ln in lines]
-    scored.sort(key=lambda x: -x[0])
-    # lead with the top note's first full sentence: in these notes it is the definition
-    lead = next((ln.strip() for ln in hits[0]["text"].split("\n")[1:]
-                 if ln.strip().endswith(".") and len(ln.split()) >= 6 and " · " not in ln
-                 and not ln.startswith("▸")), None)
-    if lead:
-        scored.insert(0, (99, lead, cite(hits[0]["metadata"])))
-    scored = [x for x in scored if not x[1].startswith("▸")]
-    seen, bullets = set(), []
-    for _, ln, c in scored:
-        if ln in seen:
-            continue
-        seen.add(ln)
-        bullets.append(f"- {ln} {c}")
-        if len(bullets) >= max_sents:
-            break
-    return "From your notes:\n" + "\n".join(bullets)
+def sources_for(citations: list[str], hits: list[dict]) -> list[dict]:
+    """The retrieved passage behind each citation, so the student can read it in the chat."""
+    by_cite: dict[str, dict] = {}
+    for h in hits:  # first (highest-ranked) passage wins for a page
+        by_cite.setdefault(cite(h["metadata"]), h)
+    out = []
+    for c in citations:
+        h = by_cite.get(c)
+        if h:
+            m = h["metadata"]
+            out.append({"citation": c, "file": m["file"], "page": m["page"],
+                        "topic": m.get("topic", ""), "day": m.get("day"), "text": h["text"]})
+    return out
 
 
 def enforce_citations(text: str, hits: list[dict]) -> tuple[str, list[str]]:
@@ -159,7 +136,8 @@ class Tutor:
                 yield {"replace": text}  # type: ignore[misc]
             refused = NOT_IN_NOTES in text
             span.set_attributes({"rag.citations": len(cites), "rag.refused": refused})
-            yield Answer(text, cites, hits, refused, best, question)
+            yield Answer(text, cites, hits, refused, best, question,
+                         [] if refused else sources_for(cites, hits))
 
     @staticmethod
     def _collect(gen: Iterator) -> Answer:

@@ -52,6 +52,7 @@ class TurnState(TypedDict, total=False):
     pending_quiz: list[dict] | None
     reply: str
     citations: list[str]
+    sources: list[dict]
     quiz: list[dict] | None
     grade: dict | None
     refused: bool
@@ -106,7 +107,7 @@ def tutor(state: TurnState) -> TurnState:
     assert final is not None
     topic = final.hits[0]["metadata"].get("topic", "") if final.hits and not final.refused else ""
     return {"reply": final.text, "citations": final.citations, "standalone": standalone,
-            "refused": final.refused, "topic": topic}
+            "refused": final.refused, "topic": topic, "sources": final.sources}
 
 
 def _quiz_topic(state: TurnState) -> str:

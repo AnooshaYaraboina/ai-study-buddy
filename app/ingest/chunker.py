@@ -117,7 +117,7 @@ def chunk_page(
 
     out: list[Chunk] = []
     for i, (head, blocks) in enumerate(chunks):
-        body = "\n".join(b.text for b in blocks).strip()
+        body = "\n".join(f"▸ {b.text}" if b.kind == "heading" else b.text for b in blocks).strip()
         if count_tokens(body) < 8:  # skip near-empty fragments
             continue
         title = page.topic.title() if page.topic else page.file

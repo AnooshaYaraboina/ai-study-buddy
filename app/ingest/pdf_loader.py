@@ -17,6 +17,7 @@ from statistics import median
 
 import pymupdf
 
+from app.ingest.layout import RawLine, assemble
 from app.ingest.sanitize import clean_text, is_injection
 
 log = logging.getLogger(__name__)
@@ -115,9 +116,8 @@ def _visible(span: dict, page_rect: pymupdf.Rect,
     return True
 
 
-def _page_lines(page: pymupdf.Page, contrast_check: bool = False
-                ) -> tuple[list[tuple[str, float, tuple, int]], int]:
-    """Return visible lines as (text, size, bbox, block_no) and hidden-span count.
+def _page_lines(page: pymupdf.Page, contrast_check: bool = False) -> tuple[list[RawLine], int]:
+    """Return visible lines (reading order) and the hidden-span count.
 
     ``contrast_check`` (untrusted uploads) also drops text whose colour matches the
     background under it, e.g. white-on-white instructions.
@@ -130,8 +130,9 @@ def _page_lines(page: pymupdf.Page, contrast_check: bool = False
                 fills.append((pymupdf.Rect(d["rect"]), tuple(d["fill"][:3])))
     except Exception:  # drawings are best-effort
         fills = [] if contrast_check else None
-    out, hidden = [], 0
-    data = page.get_text("dict", flags=pymupdf.TEXT_PRESERVE_WHITESPACE)
+    out: list[RawLine] = []
+    hidden = 0
+    data = page.get_text("dict", flags=pymupdf.TEXT_PRESERVE_WHITESPACE, sort=True)
     for bno, block in enumerate(data["blocks"]):
         if block.get("type") != 0:
             continue
@@ -149,9 +150,12 @@ def _page_lines(page: pymupdf.Page, contrast_check: bool = False
                     parts.append(" ")
                 parts.append(cur["text"])
             text = clean_text("".join(parts))
-            if text:
-                size = max(s["size"] for s in vis)
-                out.append((text, size, tuple(line["bbox"]), bno))
+            if not text:
+                continue
+            x0, y0, x1, y1 = line["bbox"]
+            bold = all((s["flags"] & 16) or "bold" in s["font"].lower() for s in vis)
+            out.append(RawLine(text, x0, y0, x1, y1, vis[0]["size"], vis[-1]["size"], bold, bno,
+                               len(out), horizontal=abs(line.get("dir", (1, 0))[1]) < 0.1))
     return out, hidden
 
 
@@ -189,18 +193,20 @@ def load_pdf(path: Path, max_pages: int = 500, untrusted: bool = False) -> list[
         lines, hidden = _page_lines(page, contrast_check=untrusted)
         raw_pages.append((page, lines, hidden, _table_rects(page)))
 
-    # Running headers / nav strips: identical lines on >= 40% of pages.
+    # Running headers / nav strips / strap lines repeated across the document
     counts = Counter()
     for _, lines, _, _ in raw_pages:
-        counts.update({t for t, *_ in lines})
+        counts.update({r.text for r in lines})
     n = max(1, len(raw_pages))
-    boiler = {t for t, c in counts.items() if n >= 5 and c / n >= 0.4}
+    # (>= 25% of pages and >= 3 pages: e.g. the handbook's "Understand why each building
+    # block matters..." strap line, nav strips, "Four things to remember")
+    boiler = {t for t, c in counts.items() if n >= 5 and c >= 3 and c / n >= 0.25}
 
     pages: list[Page] = []
     current_day = first_day
     for page, lines, hidden, tables in raw_pages:
         pno = page.number + 1
-        texts = [t for t, *_ in lines]
+        texts = [r.text for r in lines]
 
         # Day tracking: header says "day 21" / "DAY 15 / CORE CONCEPTS".
         for t in texts[:5]:
@@ -231,41 +237,44 @@ def load_pdf(path: Path, max_pages: int = 500, untrusted: bool = False) -> list[
                 topic = re.sub(r"^Apply & explain:\s*", "", cand).strip().lower()
                 break
 
-        sizes = [s for _, s, *_ in lines] or [10]
-        body = median(sizes)
+        kept = [r for r in lines
+                if r.text not in boiler and not (r.text.isdigit() and len(r.text) <= 3)]
+        body = median([r.size_first for r in kept] or [10])
         pg = Page(file=path.name, page=pno, day=day, topic=topic)
         if hidden:
             pg.dropped.append(f"<{hidden} hidden spans>")
 
-        groups: dict[int, list[tuple[str, float, tuple]]] = {}
-        for t, s, bbox, bno in lines:
-            if t in boiler or t.isdigit() and len(t) <= 3 and s <= body:
+        groups: list[tuple[str, list]] = []  # (kind-hint, logical lines)
+        for ln in assemble(kept, body):
+            if untrusted and is_injection(ln.text):
+                pg.dropped.append(ln.text)
                 continue
-            if untrusted and is_injection(t):
-                pg.dropped.append(t)
-                continue
-            groups.setdefault(bno, []).append((t, s, bbox))
+            sentence = ln.text.endswith((".", "?", "!")) and len(ln.text.split()) >= 6
+            is_heading = ln.text.startswith("▸") or (
+                not ln.labeled and not sentence and ln.size >= body * 1.18 and len(ln.text) < 90)
+            if is_heading:
+                groups.append(("heading", [ln]))
+            elif groups and groups[-1][0] == "body" and groups[-1][1][-1].block == ln.block:
+                groups[-1][1].append(ln)
+            else:
+                groups.append(("body", [ln]))
 
-        for items in groups.values():
-            text = "\n".join(t for t, *_ in items)
-            first, size, bbox = items[0]
-            in_table = any(r.contains(pymupdf.Rect(bbox)) for r in tables)
-            if in_table:
+        for hint, items in groups:
+            text = "\n".join(ln.text for ln in items)
+            if hint == "heading":
+                kind, text = "heading", text.lstrip("▸ ").replace("\n", " ")
+            elif any(r.contains(pymupdf.Rect(items[0].bbox)) for r in tables):
                 kind = "table"
-            elif first.startswith("▸") or (size >= body * 1.18 and len(text) < 90):
-                kind = "heading"
-            elif sum(bool(LIST_RE.match(t)) for t, *_ in items) >= max(1, len(items) // 2):
+            elif sum(bool(LIST_RE.match(ln.text)) for ln in items) >= max(1, (len(items) + 1) // 2):
                 kind = "list"
             else:
                 kind = "para"
-            if kind == "heading":
-                text = text.lstrip("▸ ").replace("\n", " ")
             pg.blocks.append(Block(text=text, kind=kind))
 
-        # merge consecutive table blocks into one atomic table
+        # merge consecutive table / list blocks into one atomic block
         merged: list[Block] = []
         for b in pg.blocks:
-            if merged and b.kind == "table" and merged[-1].kind == "table":
+            if merged and b.kind in ("table", "list") and merged[-1].kind == b.kind:
                 merged[-1].text += "\n" + b.text
             else:
                 merged.append(b)

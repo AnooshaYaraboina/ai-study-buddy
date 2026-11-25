@@ -129,46 +129,67 @@ def parse_quiz_json(raw: str | dict | list) -> list[QuizQuestion]:
 
 
 # ------------------------------------------------------------------ offline generator
-_TERM_LINE = re.compile(r"^[A-Z(][\w /&+()'’\-·]{1,48}$")
+_GENERIC_LABEL = re.compile(
+    r"^(days?\b|\d|step\b|lesson\b|situation\b|action\b|outcome\b|example\b|e\.g\b|defen[cs]e\b|"
+    r"mechanism\b|watch out\b|big picture\b|goal\b|why\b|how\b|what\b|rule\b|golden rule\b|tip\b|"
+    r"note\b|key idea\b|idea\b|remember\b|mistake\b|fix\b|after\b|before\b|result\b|impact\b|"
+    r"risk\b|test\b|tools?\b|deliverables?\b|done when\b|check\b|common mistake|worked example)",
+    re.I)
+_CW = re.compile(r"[A-Za-z]{3,}")
 
 
-def _definition_pairs(hit: dict) -> list[tuple[str, str]]:
-    """Find 'Term' line followed by a definition sentence (handbook style)."""
-    lines = [ln.strip() for ln in hit["text"].split("\n")]
-    pairs = []
-    for i in range(len(lines) - 1):
-        term, nxt = lines[i], lines[i + 1]
-        if (_TERM_LINE.match(term) and len(term.split()) <= 6 and not term.endswith(".")
-                and "·" not in term and "·" not in nxt and len(nxt.split()) >= 6):
-            definition = nxt
-            j = i + 2
-            while not definition.rstrip().endswith((".", ")")) and j < len(lines) and len(lines[j].split()) >= 3:
-                definition += " " + lines[j]
-                j += 1
-            if definition.rstrip().endswith("."):
-                pairs.append((term.rstrip(":"), definition))
-    return pairs
+def _clean(text: str) -> str:
+    return re.sub(r"\s+", " ", text.replace("▸", "")).strip()
 
 
-def _statements(hit: dict) -> list[str]:
-    return [ln.strip() for ln in hit["text"].split("\n")
-            if len(ln.split()) >= 7 and ln.strip().endswith(".") and "·" not in ln]
+def _quizzable(hit_idx: int, hit: dict) -> tuple[list, list, list]:
+    """(qa pairs, definitions, statements) from one passage, all as (prompt, answer)."""
+    from app.answer import _nice, split_units
+
+    qas, defs, stmts = [], [], []
+    for u in split_units(hit_idx, hit["text"]):
+        body = _clean(u.body)
+        if u.fragmentary or len(_CW.findall(body)) < 4 or len(body) > 220:
+            continue
+        if u.kind == "qa":
+            qas.append((_clean(u.label), body))
+        elif u.kind == "labeled" and not _GENERIC_LABEL.match(u.label) and len(u.label.split()) <= 5:
+            defs.append((_nice(u.label), body))
+        elif u.kind == "sent" and body.endswith((".", "!")):
+            stmts.append(("", body))
+    return qas, defs, stmts
 
 
 def offline_quiz(topic: str, hits: list[dict], pool: list[dict], n: int = 5,
                  seed: int | None = None) -> list[QuizQuestion]:
-    """Deterministic MCQs built from the notes (used without an API key)."""
+    """Deterministic MCQs built from the notes (used without an API key).
+
+    Questions come from the notes' own flashcards (Q/A), definitions ("Term: meaning")
+    and key sentences; wrong options are answers to *other* questions in the notes.
+    """
     rng = random.Random(seed if seed is not None else hash(topic) & 0xFFFF)
+    per_hit = [_quizzable(i, h) for i, h in enumerate(hits)]
+    pool_items = [_quizzable(i, h) for i, h in enumerate(pool)]
+    other_answers = [a for qa, d, st in pool_items + per_hit for _, a in qa + d]
+    other_stmts = [a for _, _, st in pool_items + per_hit for _, a in st]
     out: list[QuizQuestion] = []
     used: set[str] = set()
-    other_defs = [d for h in pool for _, d in _definition_pairs(h)]
-    other_stmts = [s for h in pool for s in _statements(h)]
 
-    def add(question: str, correct: str, distractors: list[str], h: dict) -> None:
-        ds = [d for d in dict.fromkeys(distractors) if d.lower() != correct.lower()][:3]
-        if len(ds) < 3 or correct in used:
+    def words(t: str) -> set[str]:
+        return {w.lower() for w in _CW.findall(t)}
+
+    def add(question: str, correct: str, candidates: list[str], h: dict, term: str = "") -> None:
+        if correct in used or len(out) >= n:
             return
-        opts = ds + [correct]
+        cw = words(correct)
+        ds = []
+        for d in dict.fromkeys(candidates):
+            if d == correct or len(words(d) & cw) >= 4 or (term and term.lower() in d.lower()):
+                continue  # too close to the right answer, or names the term being asked
+            ds.append(d)
+        if len(ds) < 3:
+            return
+        opts = rng.sample(ds, 3) + [correct]
         rng.shuffle(opts)
         m = h["metadata"]
         out.append(QuizQuestion(
@@ -178,22 +199,24 @@ def offline_quiz(topic: str, hits: list[dict], pool: list[dict], n: int = 5,
         ))
         used.add(correct)
 
-    for h in hits:  # 1) definition questions
-        for term, definition in _definition_pairs(h):
-            if len(out) >= n:
-                break
-            pool_d = [d for d in other_defs if d != definition]
-            rng.shuffle(pool_d)
-            add(f"According to your notes, which best describes “{term}”?", definition, pool_d, h)
-    for h in hits:  # 2) "which statement is in the notes" questions
-        for st in _statements(h):
-            if len(out) >= n:
-                break
-            hit_terms = set(st.lower().split())
-            pool_s = [s for s in other_stmts if len(hit_terms & set(s.lower().split())) < 4]
-            rng.shuffle(pool_s)
-            label = h["metadata"].get("topic") or topic
-            add(f"Which statement about “{label}” matches your notes?", st, pool_s, h)
+    # every candidate question, ranked by how well it matches the requested topic
+    cands = []  # (kind, prompt, answer, hit, term)
+    for h, (qas, defs, stmts) in zip(hits, per_hit):
+        cands += [("qa", q if q.endswith("?") else f"{q.rstrip('.')}?", a, h, "") for q, a in qas]
+        cands += [("def", f"According to your notes, what does “{t}” mean?", m, h, t)
+                  for t, m in defs]
+        label = h["metadata"].get("topic") or topic
+        cands += [("stmt", f"Which statement about “{label}” is in your notes?", st, h, "")
+                  for _, st in stmts]
+    if cands:
+        from app.answer import _similarities
+
+        sims = _similarities(topic, [f"{c[4] or c[1]} {c[2]}" for c in cands])
+        prior = {"qa": 0.08, "def": 0.05, "stmt": 0.0}  # flashcards make the best questions
+        order = sorted(range(len(cands)), key=lambda i: -(sims[i] + prior[cands[i][0]]))
+        for i in order:
+            kind, prompt, answer, h, term = cands[i]
+            add(prompt, answer, other_stmts if kind == "stmt" else other_answers, h, term)
     return out[:n]
 
 
