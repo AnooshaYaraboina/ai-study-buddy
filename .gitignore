@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Secrets
+.env
+
+# Runtime data (rebuilt by the ingest pipeline)
+data/chroma/
+data/*.db
+data/uploads/
+data/cache/
+logs/
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
+*.drawio.bkp
