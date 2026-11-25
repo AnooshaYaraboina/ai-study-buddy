@@ -127,7 +127,7 @@ def send(text: str) -> None:
 
 
 if ss.quiz:
-    with st.form("quiz"):
+    with st.form("quiz_form"):
         st.subheader("Quiz")
         picks = []
         for i, q in enumerate(ss.quiz):
