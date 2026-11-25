@@ -1,0 +1,65 @@
+# docker compose up --build   ->  UI http://localhost:8501 · API http://localhost:8080
+services:
+  chroma:
+    image: chromadb/chroma:1.5.9
+    volumes:
+      - chroma-data:/data
+    environment:
+      - ANONYMIZED_TELEMETRY=FALSE
+    restart: unless-stopped
+
+  api:
+    build: .
+    image: ai-study-buddy:1.0
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      - CHROMA_HOST=chroma
+      - CHROMA_PORT=8000
+      - DB_PATH=data/state/study_buddy.db
+      - INGEST_ON_START=1
+      - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT:-}
+    volumes:
+      - app-state:/app/data/state
+      - app-logs:/app/logs
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      - chroma        # the API retries the Chroma heartbeat on start-up
+    restart: unless-stopped
+
+  ui:
+    build: .
+    image: ai-study-buddy:1.0
+    command: ["streamlit", "run", "ui/app.py", "--server.address", "0.0.0.0",
+              "--server.port", "8501", "--server.headless", "true",
+              "--browser.gatherUsageStats", "false"]
+    environment:
+      - API_URL=http://api:8080
+    ports:
+      - "127.0.0.1:8501:8501"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8501/_stcore/health', timeout=4)"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # optional trace viewer:  OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4318 \
+  #   docker compose --profile observability up   ->  http://localhost:16686
+  jaeger:
+    image: jaegertracing/all-in-one:1.62.0
+    profiles: ["observability"]
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    ports:
+      - "127.0.0.1:16686:16686"
+
+volumes:
+  chroma-data:
+  app-state:
+  app-logs:

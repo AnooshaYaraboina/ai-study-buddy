@@ -1,0 +1,88 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-and-eval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      LLM_OFFLINE: "1"          # deterministic, key-free; set the secret + drop this for a live eval
+      HF_HOME: ~/.cache/huggingface
+      TOKENIZERS_PARALLELISM: "false"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Cache HF models
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-${{ hashFiles('app/config.py') }}
+
+      - name: Install
+        run: |
+          pip install --index-url https://download.pytorch.org/whl/cpu torch
+          pip install -r requirements.txt
+
+      - name: Ingest course PDFs into Chroma
+        run: python -m app.ingest --reset
+
+      - name: Unit + integration tests
+        run: python -m pytest -q
+
+      - name: Golden-set eval gate (recall@5 >= 0.8, citations, refusals, faithfulness)
+        run: python -m eval.run_eval --gate
+
+      - name: Diagram is up to date with its spec
+        run: |
+          pip install matplotlib
+          python scripts/build_diagram.py
+          git diff --exit-code docs/architecture.drawio
+
+      - name: Upload eval report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-report
+          path: |
+            eval/report.md
+            eval/results.json
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: test-and-eval
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: docker compose up starts all services
+        run: |
+          docker compose up -d --build --wait --wait-timeout 600
+          docker compose ps
+          curl -fsS http://127.0.0.1:8080/health
+          curl -fsS http://127.0.0.1:8501/_stcore/health
+          curl -fsS -X POST http://127.0.0.1:8080/chat \
+            -H 'Authorization: Bearer alice-token' -H 'content-type: application/json' \
+            -d '{"message":"What is a golden dataset?"}' | tee /tmp/chat.json
+          grep -q 'p.4' /tmp/chat.json
+      - name: Logs on failure
+        if: failure()
+        run: docker compose logs --tail 200
+      - name: Tear down
+        if: always()
+        run: docker compose down -v

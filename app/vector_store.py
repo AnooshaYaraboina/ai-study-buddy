@@ -9,6 +9,7 @@
 from __future__ import annotations
 
 import logging
+import time
 from functools import lru_cache
 from typing import Any
 
@@ -30,8 +31,18 @@ class ReindexRequired(RuntimeError):
 @lru_cache(maxsize=1)
 def _client():
     s = get_settings()
-    if s.chroma_host:
-        return chromadb.HttpClient(host=s.chroma_host, port=s.chroma_port)
+    if s.chroma_host:  # docker compose: Chroma runs as its own service
+        last: Exception | None = None
+        for attempt in range(30):
+            try:
+                client = chromadb.HttpClient(host=s.chroma_host, port=s.chroma_port)
+                client.heartbeat()
+                return client
+            except Exception as e:  # server still starting
+                last = e
+                log.info("waiting for chroma at %s:%s (%d)", s.chroma_host, s.chroma_port, attempt)
+                time.sleep(2)
+        raise RuntimeError(f"cannot reach chroma at {s.chroma_host}:{s.chroma_port}") from last
     s.chroma_dir.mkdir(parents=True, exist_ok=True)
     return chromadb.PersistentClient(path=str(s.chroma_dir))
 
