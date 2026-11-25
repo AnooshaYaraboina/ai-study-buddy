@@ -69,8 +69,8 @@ class VectorStore:
             )
         return len(chunks)
 
-    def delete_stale(self, file: str, keep_ids: set[str]) -> int:
-        got = self.col.get(where={"file": file}, include=[])
+    def delete_stale(self, file: str, keep_ids: set[str], owner: str = PUBLIC) -> int:
+        got = self.col.get(where={"$and": [{"file": file}, {"owner": owner}]}, include=[])
         stale = [i for i in got["ids"] if i not in keep_ids]
         if stale:
             self.col.delete(ids=stale)

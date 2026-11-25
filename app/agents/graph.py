@@ -126,6 +126,8 @@ def quiz_maker(state: TurnState) -> TurnState:
     ctx = ToolContext(state["student_id"], state["session_id"])
     topic = _quiz_topic(state)
     quiz = make_quiz(ctx, MakeQuizInput(topic=topic[:120], n=5))
+    for q in quiz:  # one label per quiz keeps weak-topic tracking consistent
+        q["topic"] = topic.strip().lower()[:80]
     db.set_pending_quiz(ctx.student_id, ctx.session_id, quiz)
     why = " (one of your weak topics)" if topic in (state.get("weak_topics") or []) else ""
     lines = [f"Here's a 5-question quiz on **{topic}**{why}. Reply with your answers, "
@@ -143,7 +145,9 @@ def grader(state: TurnState) -> TurnState:
     quiz = state["pending_quiz"] or []
     g = grade(quiz, parse_answers(state["message"], len(quiz)), ctx)
     db.set_pending_quiz(ctx.student_id, ctx.session_id, None)
-    memory.update_weak_topics(ctx.student_id, g["results"]) if hasattr(memory, "update_weak_topics") else None
+    for r in g["results"]:  # weak topics are tracked per quiz topic
+        r["topic"] = r.get("topic") or "general"
+    memory.update_weak_topics(ctx.student_id, g["results"])
     return {"reply": format_grade(g), "grade": g, "pending_quiz": None,
             "citations": sorted({r["source"] for r in g["results"] if r["source"]})}
 

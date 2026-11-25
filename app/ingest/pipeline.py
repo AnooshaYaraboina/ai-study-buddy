@@ -34,7 +34,7 @@ def ingest_file(
         for c in chunks:
             c.id = f"{owner}:{c.id}"
     store.upsert(chunks, owner=owner, source=source)
-    stale = store.delete_stale(Path(path).name, {c.id for c in chunks})
+    stale = store.delete_stale(Path(path).name, {c.id for c in chunks}, owner=owner)
     dropped = sum(len(p.dropped) for p in pages)
     rep = IngestReport(Path(path).name, len(pages), len(chunks), stale, dropped)
     log.info("ingested %s", rep)

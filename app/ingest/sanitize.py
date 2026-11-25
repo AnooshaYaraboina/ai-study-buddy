@@ -25,6 +25,7 @@ _INJECTION_PATTERNS = [
     r"\bdo\s+not\s+(tell|inform)\s+the\s+(user|student)",
     r"\b(send|email|post|upload)\s+.{0,40}\b(to|at)\s+https?://",
     r"\bwhen\s+(asked|answering)\b.{0,60}\b(always|instead)\s+(say|answer|reply|respond)",
+    r"\balways\s+(answer|say|reply|respond|tell\s+(the\s+)?(user|student))\s+(that|with)\b",
 ]
 _INJECTION_RE = re.compile("|".join(_INJECTION_PATTERNS), re.IGNORECASE)
 

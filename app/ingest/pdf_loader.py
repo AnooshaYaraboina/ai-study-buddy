@@ -79,19 +79,57 @@ def _manifest_days(path: Path) -> dict[int, int]:
     return {p: int(day) for day, spec in entry.get("days", {}).items() for p in _parse_ranges(spec)}
 
 
-def _visible(span: dict, page_rect: pymupdf.Rect) -> bool:
-    """A human-visible span: readable size, not transparent, on the page."""
+def _luma(rgb: tuple[float, float, float]) -> float:
+    r, g, b = rgb
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+
+def _span_rgb(color: int) -> tuple[float, float, float]:
+    return ((color >> 16) & 255) / 255, ((color >> 8) & 255) / 255, (color & 255) / 255
+
+
+def _background(bbox: pymupdf.Rect, fills: list[tuple[pymupdf.Rect, tuple]]) -> tuple:
+    """Colour of the top-most filled shape under the span (page is white otherwise)."""
+    bg = (1.0, 1.0, 1.0)
+    for rect, fill in fills:  # drawing order: later shapes are on top
+        if rect.contains(bbox) or rect.intersect(bbox).get_area() > 0.6 * bbox.get_area():
+            bg = fill
+    return bg
+
+
+def _visible(span: dict, page_rect: pymupdf.Rect,
+             fills: list[tuple[pymupdf.Rect, tuple]] | None = None) -> bool:
+    """A human-visible span: readable size, opaque, on the page, contrasting colour."""
     if span.get("size", 10) < 4:
         return False
     if span.get("alpha", 255) == 0:
         return False
-    x0, y0, x1, y1 = span["bbox"]
-    return pymupdf.Rect(x0, y0, x1, y1).intersects(page_rect)
+    bbox = pymupdf.Rect(span["bbox"])
+    if not bbox.intersects(page_rect):
+        return False
+    if fills is not None:
+        fg = _luma(_span_rgb(span.get("color", 0)))
+        bg = _luma(_background(bbox, fills))
+        if abs(fg - bg) < 0.08:  # text colour ~= background colour
+            return False
+    return True
 
 
-def _page_lines(page: pymupdf.Page) -> tuple[list[tuple[str, float, tuple, int]], int]:
-    """Return visible lines as (text, size, bbox, block_no) and hidden-span count."""
+def _page_lines(page: pymupdf.Page, contrast_check: bool = False
+                ) -> tuple[list[tuple[str, float, tuple, int]], int]:
+    """Return visible lines as (text, size, bbox, block_no) and hidden-span count.
+
+    ``contrast_check`` (untrusted uploads) also drops text whose colour matches the
+    background under it, e.g. white-on-white instructions.
+    """
     rect = page.rect
+    fills: list | None = [] if contrast_check else None
+    try:
+        for d in (page.get_drawings() if contrast_check else []):
+            if d.get("fill") is not None and d.get("fill_opacity", 1) > 0.5:
+                fills.append((pymupdf.Rect(d["rect"]), tuple(d["fill"][:3])))
+    except Exception:  # drawings are best-effort
+        fills = [] if contrast_check else None
     out, hidden = [], 0
     data = page.get_text("dict", flags=pymupdf.TEXT_PRESERVE_WHITESPACE)
     for bno, block in enumerate(data["blocks"]):
@@ -99,7 +137,7 @@ def _page_lines(page: pymupdf.Page) -> tuple[list[tuple[str, float, tuple, int]]
             continue
         for line in block["lines"]:
             spans = [s for s in line["spans"] if s["text"].strip()]
-            vis = [s for s in spans if _visible(s, rect)]
+            vis = [s for s in spans if _visible(s, rect, fills)]
             hidden += len(spans) - len(vis)
             if not vis:
                 continue
@@ -148,7 +186,7 @@ def load_pdf(path: Path, max_pages: int = 500, untrusted: bool = False) -> list[
     multi_day_book = last_day - first_day > 1  # e.g. a Days 01-21 handbook
     raw_pages = []
     for page in doc:
-        lines, hidden = _page_lines(page)
+        lines, hidden = _page_lines(page, contrast_check=untrusted)
         raw_pages.append((page, lines, hidden, _table_rects(page)))
 
     # Running headers / nav strips: identical lines on >= 40% of pages.
@@ -233,6 +271,7 @@ def load_pdf(path: Path, max_pages: int = 500, untrusted: bool = False) -> list[
                 merged.append(b)
         pg.blocks = merged
         if pg.dropped:
-            log.warning("%s p.%d: dropped %s", path.name, pno, pg.dropped)
+            (log.warning if untrusted else log.debug)("%s p.%d: dropped %s", path.name, pno,
+                                                      pg.dropped)
         pages.append(pg)
     return pages

@@ -64,6 +64,13 @@ def extractive_answer(question: str, hits: list[dict], max_sents: int = 4) -> st
         lines = [ln for ln in h["text"].split("\n")[1:] if len(ln) > 25][:2]
         scored = [(0, ln, cite(h["metadata"])) for ln in lines]
     scored.sort(key=lambda x: -x[0])
+    # lead with the top note's first full sentence: in these notes it is the definition
+    lead = next((ln.strip() for ln in hits[0]["text"].split("\n")[1:]
+                 if ln.strip().endswith(".") and len(ln.split()) >= 6 and " · " not in ln
+                 and not ln.startswith("▸")), None)
+    if lead:
+        scored.insert(0, (99, lead, cite(hits[0]["metadata"])))
+    scored = [x for x in scored if not x[1].startswith("▸")]
     seen, bullets = set(), []
     for _, ln, c in scored:
         if ln in seen:
@@ -94,7 +101,7 @@ def enforce_citations(text: str, hits: list[dict]) -> tuple[str, list[str]]:
 
 def refusal(hits: list[dict]) -> str:
     hint = ""
-    if hits:
+    if hits and hits[0].get("score", 0) >= 0.05:
         hint = f"\nThe closest topic I do have is “{hits[0]['metadata'].get('topic', '')}”."
     return NOT_IN_NOTES + hint
 
