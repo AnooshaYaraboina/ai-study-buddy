@@ -1,0 +1,6 @@
+{
+  "_comment": "Optional per-file metadata overrides. days: {day: 'page ranges'} (1-based, inclusive).",
+  "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf": {
+    "days": {"24": "1-11,22-30", "25": "12-21,31-39"}
+  }
+}
