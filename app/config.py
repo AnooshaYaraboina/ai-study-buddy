@@ -48,7 +48,11 @@ class Settings:
     chroma_port: int = field(default_factory=lambda: int(_env("CHROMA_PORT", "8000")))
     chroma_dir: Path = field(default_factory=lambda: ROOT / _env("CHROMA_DIR", "data/chroma"))
     collection: str = field(default_factory=lambda: _env("COLLECTION", "course_notes"))
+    # refusal gate: answer if rerank >= MIN_SCORE, or if the reranker is lukewarm
+    # (>= MIN_SCORE_SOFT) but the embedding match is strong (>= MIN_VECTOR)
     min_score: float = field(default_factory=lambda: float(_env("MIN_SCORE", "0.25")))
+    min_score_soft: float = field(default_factory=lambda: float(_env("MIN_SCORE_SOFT", "0.03")))
+    min_vector: float = field(default_factory=lambda: float(_env("MIN_VECTOR", "0.45")))
     top_k: int = 5
     chunk_tokens: int = 500
     chunk_overlap: int = 60

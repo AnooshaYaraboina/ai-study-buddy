@@ -120,7 +120,13 @@ class Tutor:
             summary=summary or "none", question=question)}]
 
     def is_answerable(self, hits: list[dict]) -> bool:
-        return bool(hits) and hits[0]["score"] >= self.settings.min_score
+        """Two-signal refusal gate (thresholds tuned on the golden + off-topic probes)."""
+        if not hits:
+            return False
+        s = self.settings
+        best = hits[0]["score"]
+        best_vec = max((h.get("vector_score") or 0.0) for h in hits)
+        return best >= s.min_score or (best >= s.min_score_soft and best_vec >= s.min_vector)
 
     def answer(self, question: str, owner: str | None = None, weak: list[str] | None = None,
                summary: str = "", **filters) -> Answer:

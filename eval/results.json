@@ -1,0 +1,1534 @@
+{
+  "date": "2026-11-25 16:15",
+  "llm": "offline-stub (extractive)",
+  "judge": "word-overlap",
+  "n_answerable": 30,
+  "n_offtopic": 6,
+  "chunks": 253,
+  "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "rerank_model": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+  "retrieval": {
+    "vector only": {
+      "recall@5": 1.0,
+      "strict_recall@5": 0.794,
+      "mrr@5": 0.961,
+      "rows": [
+        {
+          "id": "g01",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.10",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.8",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.34",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.30",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.13"
+          ]
+        },
+        {
+          "id": "g02",
+          "hit": true,
+          "rank": 2,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.8",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.34",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.9",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.30",
+            "Days_01_21_Master_Revision_Handbook.pdf p.11"
+          ]
+        },
+        {
+          "id": "g03",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.17",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.22",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.2",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.4",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.48"
+          ]
+        },
+        {
+          "id": "g04",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.4",
+            "Days_01_21_Master_Revision_Handbook.pdf p.34",
+            "Days_01_21_Master_Revision_Handbook.pdf p.36",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.44",
+            "Days_01_21_Master_Revision_Handbook.pdf p.33"
+          ]
+        },
+        {
+          "id": "g05",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.15",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.39",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.21",
+            "Days_01_21_Master_Revision_Handbook.pdf p.34",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.48"
+          ]
+        },
+        {
+          "id": "g06",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.13",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.16",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.30",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.6",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.8"
+          ]
+        },
+        {
+          "id": "g07",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.31",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.44",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.38",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.39",
+            "Days_01_21_Master_Revision_Handbook.pdf p.35"
+          ]
+        },
+        {
+          "id": "g08",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.28",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.11",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.18",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.47",
+            "Days_01_21_Master_Revision_Handbook.pdf p.20"
+          ]
+        },
+        {
+          "id": "g09",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.21",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.22",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.17",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.39",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.12"
+          ]
+        },
+        {
+          "id": "g10",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.20",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.34",
+            "Days_01_21_Master_Revision_Handbook.pdf p.34",
+            "Days_01_21_Master_Revision_Handbook.pdf p.34",
+            "Days_01_21_Master_Revision_Handbook.pdf p.49"
+          ]
+        },
+        {
+          "id": "g11",
+          "hit": true,
+          "rank": 3,
+          "top5": [
+            "Days_01_21_Master_Revision_Handbook.pdf p.49",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.31",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.5",
+            "Days_01_21_Master_Revision_Handbook.pdf p.44",
+            "Days_01_21_Master_Revision_Handbook.pdf p.44"
+          ]
+        },
+        {
+          "id": "g12",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.10",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.12",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.11",
+            "Days_01_21_Master_Revision_Handbook.pdf p.44",
+            "Days_01_21_Master_Revision_Handbook.pdf p.43"
+          ]
+        },
+        {
+          "id": "g13",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.9",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.8",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.4",
+            "Days_01_21_Master_Revision_Handbook.pdf p.24",
+            "Days_01_21_Master_Revision_Handbook.pdf p.23"
+          ]
+        },
+        {
+          "id": "g14",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Days_01_21_Master_Revision_Handbook.pdf p.46",
+            "Days_01_21_Master_Revision_Handbook.pdf p.42",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.44",
+            "Days_01_21_Master_Revision_Handbook.pdf p.45",
+            "Days_01_21_Master_Revision_Handbook.pdf p.34"
+          ]
+        },
+        {
+          "id": "g15",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.31",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.27",
+            "Days_01_21_Master_Revision_Handbook.pdf p.34",
+            "Days_01_21_Master_Revision_Handbook.pdf p.33",
+            "Days_01_21_Master_Revision_Handbook.pdf p.34"
+          ]
+        },
+        {
+          "id": "g16",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.29",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.10",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.28",
+            "Days_01_21_Master_Revision_Handbook.pdf p.45",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.49"
+          ]
+        },
+        {
+          "id": "g17",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.38",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.31",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.36",
+            "Days_01_21_Master_Revision_Handbook.pdf p.34",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.27"
+          ]
+        },
+        {
+          "id": "g18",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.17",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.40",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.21",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.34",
+            "Days_01_21_Master_Revision_Handbook.pdf p.46"
+          ]
+        },
+        {
+          "id": "g19",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.4",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.23",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.28",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.11",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.19"
+          ]
+        },
+        {
+          "id": "g20",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.3",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.1",
+            "Days_01_21_Master_Revision_Handbook.pdf p.6",
+            "Days_01_21_Master_Revision_Handbook.pdf p.18",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.2"
+          ]
+        },
+        {
+          "id": "g21",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.6",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.33",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.26",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.5",
+            "Days_01_21_Master_Revision_Handbook.pdf p.31"
+          ]
+        },
+        {
+          "id": "g22",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.38",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.20",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.38",
+            "Days_01_21_Master_Revision_Handbook.pdf p.33",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.45"
+          ]
+        },
+        {
+          "id": "g23",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.16",
+            "Days_01_21_Master_Revision_Handbook.pdf p.11",
+            "Days_01_21_Master_Revision_Handbook.pdf p.12",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.30",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.8"
+          ]
+        },
+        {
+          "id": "g24",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.13",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.31",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.31",
+            "Days_01_21_Master_Revision_Handbook.pdf p.40",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.3"
+          ]
+        },
+        {
+          "id": "g25",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.3",
+            "Days_01_21_Master_Revision_Handbook.pdf p.28",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.8",
+            "Days_01_21_Master_Revision_Handbook.pdf p.47",
+            "Days_01_21_Master_Revision_Handbook.pdf p.39"
+          ]
+        },
+        {
+          "id": "g26",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Days_01_21_Master_Revision_Handbook.pdf p.30",
+            "Days_01_21_Master_Revision_Handbook.pdf p.29",
+            "Days_01_21_Master_Revision_Handbook.pdf p.53",
+            "Days_01_21_Master_Revision_Handbook.pdf p.55",
+            "Days_01_21_Master_Revision_Handbook.pdf p.30"
+          ]
+        },
+        {
+          "id": "g27",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Days_01_21_Master_Revision_Handbook.pdf p.24",
+            "Days_01_21_Master_Revision_Handbook.pdf p.23",
+            "Days_01_21_Master_Revision_Handbook.pdf p.24",
+            "Days_01_21_Master_Revision_Handbook.pdf p.48",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.8"
+          ]
+        },
+        {
+          "id": "g28",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Days_01_21_Master_Revision_Handbook.pdf p.42",
+            "Days_01_21_Master_Revision_Handbook.pdf p.42",
+            "Days_01_21_Master_Revision_Handbook.pdf p.41",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.44",
+            "Days_01_21_Master_Revision_Handbook.pdf p.34"
+          ]
+        },
+        {
+          "id": "g29",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Days_01_21_Master_Revision_Handbook.pdf p.50",
+            "Days_01_21_Master_Revision_Handbook.pdf p.41",
+            "Days_01_21_Master_Revision_Handbook.pdf p.42",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.44",
+            "Days_01_21_Master_Revision_Handbook.pdf p.42"
+          ]
+        },
+        {
+          "id": "g30",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Days_01_21_Master_Revision_Handbook.pdf p.32",
+            "Days_01_21_Master_Revision_Handbook.pdf p.20",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.7",
+            "Days_01_21_Master_Revision_Handbook.pdf p.19",
+            "Days_01_21_Master_Revision_Handbook.pdf p.28"
+          ]
+        }
+      ]
+    },
+    "hybrid (BM25+vector, RRF)": {
+      "recall@5": 1.0,
+      "strict_recall@5": 0.843,
+      "mrr@5": 0.983,
+      "rows": [
+        {
+          "id": "g01",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.10",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.8",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.34",
+            "Days_01_21_Master_Revision_Handbook.pdf p.11",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.48"
+          ]
+        },
+        {
+          "id": "g02",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.34",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.9",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.8",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.28",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.10"
+          ]
+        },
+        {
+          "id": "g03",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.17",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.22",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.48",
+            "Days_01_21_Master_Revision_Handbook.pdf p.43",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.4"
+          ]
+        },
+        {
+          "id": "g04",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.4",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.44",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.48",
+            "Days_01_21_Master_Revision_Handbook.pdf p.1",
+            "Days_01_21_Master_Revision_Handbook.pdf p.38"
+          ]
+        },
+        {
+          "id": "g05",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.15",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.48",
+            "Days_01_21_Master_Revision_Handbook.pdf p.34",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.25",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.21"
+          ]
+        },
+        {
+          "id": "g06",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.13",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.46",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.30",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.16",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.37"
+          ]
+        },
+        {
+          "id": "g07",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.31",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.12",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.21",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.26",
+            "Days_01_21_Master_Revision_Handbook.pdf p.33"
+          ]
+        },
+        {
+          "id": "g08",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.28",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.11",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.47",
+            "Days_01_21_Master_Revision_Handbook.pdf p.19",
+            "Days_01_21_Master_Revision_Handbook.pdf p.20"
+          ]
+        },
+        {
+          "id": "g09",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.21",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.48",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.2",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.22",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.30"
+          ]
+        },
+        {
+          "id": "g10",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.20",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.34",
+            "Days_01_21_Master_Revision_Handbook.pdf p.49",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.35",
+            "Days_01_21_Master_Revision_Handbook.pdf p.33"
+          ]
+        },
+        {
+          "id": "g11",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Days_01_21_Master_Revision_Handbook.pdf p.44",
+            "Days_01_21_Master_Revision_Handbook.pdf p.49",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.5",
+            "Days_01_21_Master_Revision_Handbook.pdf p.44",
+            "Days_01_21_Master_Revision_Handbook.pdf p.43"
+          ]
+        },
+        {
+          "id": "g12",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.10",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.12",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.48",
+            "Days_01_21_Master_Revision_Handbook.pdf p.43",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.11"
+          ]
+        },
+        {
+          "id": "g13",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.9",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.4",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.10",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.8",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.43"
+          ]
+        },
+        {
+          "id": "g14",
+          "hit": true,
+          "rank": 2,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.44",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.21",
+            "Days_01_21_Master_Revision_Handbook.pdf p.34",
+            "Days_01_21_Master_Revision_Handbook.pdf p.33",
+            "Days_01_21_Master_Revision_Handbook.pdf p.50"
+          ]
+        },
+        {
+          "id": "g15",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.31",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.27",
+            "Days_01_21_Master_Revision_Handbook.pdf p.45",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.26",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.8"
+          ]
+        },
+        {
+          "id": "g16",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.29",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.10",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.28",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.49",
+            "Days_01_21_Master_Revision_Handbook.pdf p.45"
+          ]
+        },
+        {
+          "id": "g17",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.38",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.36",
+            "Days_01_21_Master_Revision_Handbook.pdf p.45",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.27",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.31"
+          ]
+        },
+        {
+          "id": "g18",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.40",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.17",
+            "Days_01_21_Master_Revision_Handbook.pdf p.49",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.21",
+            "Days_01_21_Master_Revision_Handbook.pdf p.46"
+          ]
+        },
+        {
+          "id": "g19",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.4",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.23",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.28",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.28",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.49"
+          ]
+        },
+        {
+          "id": "g20",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.3",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.1",
+            "Days_01_21_Master_Revision_Handbook.pdf p.6",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.2",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.40"
+          ]
+        },
+        {
+          "id": "g21",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.6",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.33",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.26",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.26",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.5"
+          ]
+        },
+        {
+          "id": "g22",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.38",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.38",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.20",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.45",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.1"
+          ]
+        },
+        {
+          "id": "g23",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.16",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.30",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.13",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.25",
+            "Days_01_21_Master_Revision_Handbook.pdf p.11"
+          ]
+        },
+        {
+          "id": "g24",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.13",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.31",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.31",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.32",
+            "Days_01_21_Master_Revision_Handbook.pdf p.22"
+          ]
+        },
+        {
+          "id": "g25",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.3",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.8",
+            "Days_01_21_Master_Revision_Handbook.pdf p.10",
+            "Days_01_21_Master_Revision_Handbook.pdf p.7",
+            "Days_01_21_Master_Revision_Handbook.pdf p.28"
+          ]
+        },
+        {
+          "id": "g26",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Days_01_21_Master_Revision_Handbook.pdf p.29",
+            "Days_01_21_Master_Revision_Handbook.pdf p.30",
+            "Days_01_21_Master_Revision_Handbook.pdf p.53",
+            "Days_01_21_Master_Revision_Handbook.pdf p.30",
+            "Days_01_21_Master_Revision_Handbook.pdf p.64"
+          ]
+        },
+        {
+          "id": "g27",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Days_01_21_Master_Revision_Handbook.pdf p.24",
+            "Days_01_21_Master_Revision_Handbook.pdf p.24",
+            "Days_01_21_Master_Revision_Handbook.pdf p.23",
+            "Days_01_21_Master_Revision_Handbook.pdf p.59",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.25"
+          ]
+        },
+        {
+          "id": "g28",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Days_01_21_Master_Revision_Handbook.pdf p.42",
+            "Days_01_21_Master_Revision_Handbook.pdf p.41",
+            "Days_01_21_Master_Revision_Handbook.pdf p.42",
+            "Days_01_21_Master_Revision_Handbook.pdf p.50",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.44"
+          ]
+        },
+        {
+          "id": "g29",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Days_01_21_Master_Revision_Handbook.pdf p.50",
+            "Days_01_21_Master_Revision_Handbook.pdf p.41",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.44",
+            "Days_01_21_Master_Revision_Handbook.pdf p.42",
+            "Days_01_21_Master_Revision_Handbook.pdf p.42"
+          ]
+        },
+        {
+          "id": "g30",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Days_01_21_Master_Revision_Handbook.pdf p.32",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.7",
+            "Days_01_21_Master_Revision_Handbook.pdf p.31",
+            "Days_01_21_Master_Revision_Handbook.pdf p.32",
+            "Days_01_21_Master_Revision_Handbook.pdf p.20"
+          ]
+        }
+      ]
+    },
+    "hybrid+rerank": {
+      "recall@5": 1.0,
+      "strict_recall@5": 0.861,
+      "mrr@5": 1.0,
+      "rows": [
+        {
+          "id": "g01",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.10",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.48",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.8",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.34",
+            "Days_01_21_Master_Revision_Handbook.pdf p.11"
+          ]
+        },
+        {
+          "id": "g02",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.34",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.48",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.28",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.9",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.8"
+          ]
+        },
+        {
+          "id": "g03",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.17",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.22",
+            "Days_01_21_Master_Revision_Handbook.pdf p.62",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.45",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.48"
+          ]
+        },
+        {
+          "id": "g04",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.4",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.48",
+            "Days_01_21_Master_Revision_Handbook.pdf p.34",
+            "Days_01_21_Master_Revision_Handbook.pdf p.34",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.15"
+          ]
+        },
+        {
+          "id": "g05",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.15",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.25",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.48",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.39",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.35"
+          ]
+        },
+        {
+          "id": "g06",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.13",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.46",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.12",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.8",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.16"
+          ]
+        },
+        {
+          "id": "g07",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.31",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.49",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.50",
+            "Days_01_21_Master_Revision_Handbook.pdf p.33",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.26"
+          ]
+        },
+        {
+          "id": "g08",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.28",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.50",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.2",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.1",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.11"
+          ]
+        },
+        {
+          "id": "g09",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.21",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.48",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.2",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.50",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.29"
+          ]
+        },
+        {
+          "id": "g10",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.20",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.34",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.43",
+            "Days_01_21_Master_Revision_Handbook.pdf p.36",
+            "Days_01_21_Master_Revision_Handbook.pdf p.44"
+          ]
+        },
+        {
+          "id": "g11",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Days_01_21_Master_Revision_Handbook.pdf p.44",
+            "Days_01_21_Master_Revision_Handbook.pdf p.49",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.5",
+            "Days_01_21_Master_Revision_Handbook.pdf p.62",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.2"
+          ]
+        },
+        {
+          "id": "g12",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.12",
+            "Days_01_21_Master_Revision_Handbook.pdf p.43",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.10",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.11",
+            "Days_01_21_Master_Revision_Handbook.pdf p.44"
+          ]
+        },
+        {
+          "id": "g13",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.9",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.8",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.4",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.30",
+            "Days_01_21_Master_Revision_Handbook.pdf p.27"
+          ]
+        },
+        {
+          "id": "g14",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.21",
+            "Days_01_21_Master_Revision_Handbook.pdf p.46",
+            "Days_01_21_Master_Revision_Handbook.pdf p.44",
+            "Days_01_21_Master_Revision_Handbook.pdf p.44",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.13"
+          ]
+        },
+        {
+          "id": "g15",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.31",
+            "Days_01_21_Master_Revision_Handbook.pdf p.45",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.26",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.27",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.8"
+          ]
+        },
+        {
+          "id": "g16",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.29",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.10",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.28",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.49",
+            "Days_01_21_Master_Revision_Handbook.pdf p.59"
+          ]
+        },
+        {
+          "id": "g17",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.36",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.38",
+            "Days_01_21_Master_Revision_Handbook.pdf p.45",
+            "Days_01_21_Master_Revision_Handbook.pdf p.46",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.37"
+          ]
+        },
+        {
+          "id": "g18",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.40",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.17",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.25",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.42",
+            "Days_01_21_Master_Revision_Handbook.pdf p.49"
+          ]
+        },
+        {
+          "id": "g19",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.4",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.23",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.28",
+            "Days_01_21_Master_Revision_Handbook.pdf p.31",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.49"
+          ]
+        },
+        {
+          "id": "g20",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.3",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.1",
+            "Days_01_21_Master_Revision_Handbook.pdf p.6",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.40",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.22"
+          ]
+        },
+        {
+          "id": "g21",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.6",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.26",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.33",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.49",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.30"
+          ]
+        },
+        {
+          "id": "g22",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.20",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.38",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.38",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.45",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.39"
+          ]
+        },
+        {
+          "id": "g23",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.16",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.36",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.30",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.13",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.25"
+          ]
+        },
+        {
+          "id": "g24",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.13",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.31",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.31",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.36",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.22"
+          ]
+        },
+        {
+          "id": "g25",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Days_01_21_Master_Revision_Handbook.pdf p.10",
+            "Days_01_21_Master_Revision_Handbook.pdf p.57",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.3",
+            "Days_01_21_Master_Revision_Handbook.pdf p.28",
+            "Day_20_21_Memory_Reliability_Visual_Notes.pdf p.8"
+          ]
+        },
+        {
+          "id": "g26",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Days_01_21_Master_Revision_Handbook.pdf p.29",
+            "Days_01_21_Master_Revision_Handbook.pdf p.64",
+            "Days_01_21_Master_Revision_Handbook.pdf p.30",
+            "Days_01_21_Master_Revision_Handbook.pdf p.60",
+            "Days_01_21_Master_Revision_Handbook.pdf p.53"
+          ]
+        },
+        {
+          "id": "g27",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Days_01_21_Master_Revision_Handbook.pdf p.24",
+            "Days_01_21_Master_Revision_Handbook.pdf p.24",
+            "Days_01_21_Master_Revision_Handbook.pdf p.23",
+            "Days_01_21_Master_Revision_Handbook.pdf p.59",
+            "Days_01_21_Master_Revision_Handbook.pdf p.52"
+          ]
+        },
+        {
+          "id": "g28",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Days_01_21_Master_Revision_Handbook.pdf p.42",
+            "Days_01_21_Master_Revision_Handbook.pdf p.62",
+            "Days_01_21_Master_Revision_Handbook.pdf p.42",
+            "Days_01_21_Master_Revision_Handbook.pdf p.41",
+            "Days_01_21_Master_Revision_Handbook.pdf p.50"
+          ]
+        },
+        {
+          "id": "g29",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Days_01_21_Master_Revision_Handbook.pdf p.50",
+            "Days_01_21_Master_Revision_Handbook.pdf p.41",
+            "Days_01_21_Master_Revision_Handbook.pdf p.42",
+            "Days_01_21_Master_Revision_Handbook.pdf p.56",
+            "Day_22_23_AI_Security_Visual_Notes.pdf p.44"
+          ]
+        },
+        {
+          "id": "g30",
+          "hit": true,
+          "rank": 1,
+          "top5": [
+            "Days_01_21_Master_Revision_Handbook.pdf p.32",
+            "Days_01_21_Master_Revision_Handbook.pdf p.31",
+            "Days_01_21_Master_Revision_Handbook.pdf p.32",
+            "Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.7",
+            "Days_01_21_Master_Revision_Handbook.pdf p.60"
+          ]
+        }
+      ]
+    }
+  },
+  "answers": {
+    "citation_rate": 1.0,
+    "citation_validity": 1.0,
+    "faithfulness": 0.917,
+    "false_refusal_rate": 0.0,
+    "refusal_accuracy": 1.0,
+    "rows": [
+      {
+        "id": "g01",
+        "refused": false,
+        "citations": [
+          "[Day_22_23_AI_Security_Visual_Notes.pdf p.10]",
+          "[Day_20_21_Memory_Reliability_Visual_Notes.pdf p.34]"
+        ],
+        "latency_ms": 632,
+        "answer": "From your notes:\n- Similar language attacks with a different emphasis. [Day_22_23_AI_Security_Visual_Notes.pdf p.10]\n- PROMPT INJECTION makes the APPLICATION follow instructions hidden in [Day_22_23_AI_Security_Visual_Notes.pdf p.10]\n- Indirect prompt injection = an instruction hidden in lower-trust material the [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.34]\n- JAILBREAK makes the MODEL ignore its behaviour or safety limits [Day_22_23_AI_Security_Visual_Notes.pdf p.10]",
+        "claims": 4,
+        "supported": 4
+      },
+      {
+        "id": "g02",
+        "refused": false,
+        "citations": [
+          "[Day_20_21_Memory_Reliability_Visual_Notes.pdf p.34]",
+          "[Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.28]"
+        ],
+        "latency_ms": 596,
+        "answer": "From your notes:\n- Test with hostile content that tries to override instructions or trigger unauthorized actions. [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.34]\n- Indirect prompt injection = an instruction hidden in lower-trust material the [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.34]\n- enforce tool permissions in code, not only in the prompt [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.34]\n- Fix each breach in CODE (authorization, tool gate), not only in the prompt [Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.28]",
+        "claims": 4,
+        "supported": 4
+      },
+      {
+        "id": "g03",
+        "refused": false,
+        "citations": [
+          "[Day_22_23_AI_Security_Visual_Notes.pdf p.17]",
+          "[Day_20_21_Memory_Reliability_Visual_Notes.pdf p.22]"
+        ],
+        "latency_ms": 929,
+        "answer": "From your notes:\n- Long-lived context can turn a small attack into a lasting one. [Day_22_23_AI_Security_Visual_Notes.pdf p.17]\n- Memory poisoning false facts or instructions written into memory, [Day_22_23_AI_Security_Visual_Notes.pdf p.17]\n- Memory poisoning = corrupting stored memory so future outputs or actions [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.22]\n- Memory is a persisted data store with permissions, provenance and lifecycle controls. [Day_22_23_AI_Security_Visual_Notes.pdf p.17]",
+        "claims": 4,
+        "supported": 4
+      },
+      {
+        "id": "g04",
+        "refused": false,
+        "citations": [
+          "[Day_22_23_AI_Security_Visual_Notes.pdf p.4]",
+          "[Days_01_21_Master_Revision_Handbook.pdf p.34]",
+          "[Day_22_23_AI_Security_Visual_Notes.pdf p.15]"
+        ],
+        "latency_ms": 677,
+        "answer": "From your notes:\n- Confidentiality, integrity and availability apply to agents too. [Day_22_23_AI_Security_Visual_Notes.pdf p.4]\n- The CIA triad for AI systems [Day_22_23_AI_Security_Visual_Notes.pdf p.4]\n- Apply & explain: Agentic AI [Days_01_21_Master_Revision_Handbook.pdf p.34]\n- Limit what AI agents are allowed to do. \u25b8 Booking assistant: too much vs just enough [Day_22_23_AI_Security_Visual_Notes.pdf p.15]",
+        "claims": 4,
+        "supported": 3
+      },
+      {
+        "id": "g05",
+        "refused": false,
+        "citations": [
+          "[Day_22_23_AI_Security_Visual_Notes.pdf p.15]",
+          "[Day_22_23_AI_Security_Visual_Notes.pdf p.35]"
+        ],
+        "latency_ms": 667,
+        "answer": "From your notes:\n- Reducing agent privileges limits the damage even if a prompt injection succeeds. [Day_22_23_AI_Security_Visual_Notes.pdf p.15]\n- Limit what AI agents are allowed to do. \u25b8 Booking assistant: too much vs just enough [Day_22_23_AI_Security_Visual_Notes.pdf p.15]\n- Not enough alone schemas limit shape; access policy limits agency [Day_22_23_AI_Security_Visual_Notes.pdf p.35]",
+        "claims": 3,
+        "supported": 3
+      },
+      {
+        "id": "g06",
+        "refused": false,
+        "citations": [
+          "[Day_22_23_AI_Security_Visual_Notes.pdf p.13]"
+        ],
+        "latency_ms": 738,
+        "answer": "From your notes:\n- Never treat prompt secrecy as an access-control mechanism. [Day_22_23_AI_Security_Visual_Notes.pdf p.13]\n- Never store secrets in anything the model might reveal. \u25b8 What is safe to put where [Day_22_23_AI_Security_Visual_Notes.pdf p.13]\n- assume the system prompt can be extracted by a determined user [Day_22_23_AI_Security_Visual_Notes.pdf p.13]\n- revealing prompt wording does not reveal a credential [Day_22_23_AI_Security_Visual_Notes.pdf p.13]",
+        "claims": 4,
+        "supported": 4
+      },
+      {
+        "id": "g07",
+        "refused": false,
+        "citations": [
+          "[Day_22_23_AI_Security_Visual_Notes.pdf p.31]",
+          "[Days_01_21_Master_Revision_Handbook.pdf p.33]",
+          "[Day_22_23_AI_Security_Visual_Notes.pdf p.26]"
+        ],
+        "latency_ms": 694,
+        "answer": "From your notes:\n- Put a narrow API between the model and the outside world. [Day_22_23_AI_Security_Visual_Notes.pdf p.31]\n- Model-selected tool names and arguments are requests, never proof of permission. [Day_22_23_AI_Security_Visual_Notes.pdf p.31]\n- Model proposes tool name and arguments; runtime validates and executes outside [Days_01_21_Master_Revision_Handbook.pdf p.33]\n- Reference design gateway, policy engine, retrieval, model, tool gateway, [Day_22_23_AI_Security_Visual_Notes.pdf p.26]",
+        "claims": 4,
+        "supported": 4
+      },
+      {
+        "id": "g08",
+        "refused": false,
+        "citations": [
+          "[Day_22_23_AI_Security_Visual_Notes.pdf p.28]",
+          "[Day_22_23_AI_Security_Visual_Notes.pdf p.11]",
+          "[Day_22_23_AI_Security_Visual_Notes.pdf p.50]"
+        ],
+        "latency_ms": 961,
+        "answer": "From your notes:\n- Never fetch all private chunks and ask the LLM to hide the forbidden ones. [Day_22_23_AI_Security_Visual_Notes.pdf p.28]\n- Filter private knowledge BEFORE the model can see it. \u25b8 Right way vs wrong way [Day_22_23_AI_Security_Visual_Notes.pdf p.28]\n- Stop private information from leaving approved boundaries. \u25b8 Five ways data sneaks out [Day_22_23_AI_Security_Visual_Notes.pdf p.11]\n- Untrusted text can reach the model. It must never reach privileges without trusted code in [Day_22_23_AI_Security_Visual_Notes.pdf p.50]",
+        "claims": 5,
+        "supported": 5
+      },
+      {
+        "id": "g09",
+        "refused": false,
+        "citations": [
+          "[Day_22_23_AI_Security_Visual_Notes.pdf p.21]",
+          "[Day_22_23_AI_Security_Visual_Notes.pdf p.2]"
+        ],
+        "latency_ms": 601,
+        "answer": "From your notes:\n- Every model request needs a maximum resource budget before execution begins. [Day_22_23_AI_Security_Visual_Notes.pdf p.21]\n- Cost and capacity are security concerns too. \u25b8 Bounding a summarizer before it runs [Day_22_23_AI_Security_Visual_Notes.pdf p.21]\n- Why security? exhausted budgets deny real users service [Day_22_23_AI_Security_Visual_Notes.pdf p.21]\n- Golden rule: the LLM is a reasoning component, not a security boundary. [Day_22_23_AI_Security_Visual_Notes.pdf p.2]",
+        "claims": 4,
+        "supported": 4
+      },
+      {
+        "id": "g10",
+        "refused": false,
+        "citations": [
+          "[Day_20_21_Memory_Reliability_Visual_Notes.pdf p.20]",
+          "[Day_22_23_AI_Security_Visual_Notes.pdf p.34]",
+          "[Days_01_21_Master_Revision_Handbook.pdf p.36]"
+        ],
+        "latency_ms": 679,
+        "answer": "From your notes:\n- An interrupt pauses the workflow so a person can review before the next controlled step. [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.20]\n- Human approval for high-impact actions [Day_22_23_AI_Security_Visual_Notes.pdf p.34]\n- Pause before side effects; resume after validated human input from saved state. [Days_01_21_Master_Revision_Handbook.pdf p.36]\n- Approval is for one specific action, never a vague \"do whatever is needed\". [Day_22_23_AI_Security_Visual_Notes.pdf p.34]",
+        "claims": 4,
+        "supported": 4
+      },
+      {
+        "id": "g11",
+        "refused": false,
+        "citations": [
+          "[Days_01_21_Master_Revision_Handbook.pdf p.44]",
+          "[Day_20_21_Memory_Reliability_Visual_Notes.pdf p.5]",
+          "[Days_01_21_Master_Revision_Handbook.pdf p.49]"
+        ],
+        "latency_ms": 685,
+        "answer": "From your notes:\n- A: Checkpoint restores workflow state; store preserves selected data across threads. [Days_01_21_Master_Revision_Handbook.pdf p.44]\n- A checkpoint is a recoverable snapshot of workflow state taken at an execution boundary. [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.5]\n- Agent workflow with approval & [Days_01_21_Master_Revision_Handbook.pdf p.49]\n- An agent is an orchestrated state machine, not a model with unrestricted access. [Days_01_21_Master_Revision_Handbook.pdf p.49]",
+        "claims": 4,
+        "supported": 4
+      },
+      {
+        "id": "g12",
+        "refused": false,
+        "citations": [
+          "[Day_20_21_Memory_Reliability_Visual_Notes.pdf p.12]",
+          "[Day_20_21_Memory_Reliability_Visual_Notes.pdf p.10]"
+        ],
+        "latency_ms": 648,
+        "answer": "From your notes:\n- Relevant past events and how they turned out, so the agent learns from earlier attempts. [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.12]\n- episodic = what happened; semantic = the fact taken from it [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.12]\n- Episodic memory is \"what happened and what resulted\", not a promise that [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.12]\n- Quick test: \"what is true?\" \u2192 semantic. \"What happened last time?\" \u2192 episodic. [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.10]",
+        "claims": 4,
+        "supported": 4
+      },
+      {
+        "id": "g13",
+        "refused": false,
+        "citations": [
+          "[Day_20_21_Memory_Reliability_Visual_Notes.pdf p.9]",
+          "[Day_20_21_Memory_Reliability_Visual_Notes.pdf p.8]",
+          "[Day_20_21_Memory_Reliability_Visual_Notes.pdf p.4]"
+        ],
+        "latency_ms": 728,
+        "answer": "From your notes:\n- A summary keeps a useful account of older talk without sending every message again. [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.9]\n- Long chats exceed limits, cost more, and bury important instructions in noise. [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.8]\n- Summarization is lossy compression. It can lose constraints or go stale, so keep [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.9]\n- Short-term memory serves one ongoing thread; long-term memory survives across [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.4]",
+        "claims": 5,
+        "supported": 5
+      },
+      {
+        "id": "g14",
+        "refused": false,
+        "citations": [
+          "[Day_20_21_Memory_Reliability_Visual_Notes.pdf p.21]",
+          "[Day_20_21_Memory_Reliability_Visual_Notes.pdf p.13]",
+          "[Days_01_21_Master_Revision_Handbook.pdf p.44]"
+        ],
+        "latency_ms": 693,
+        "answer": "From your notes:\n- idempotent or undo a payment already made. [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.21]\n- Resuming may re-run code since the last checkpoint, so external actions must be safe to [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.21]\n- safety, data or external actions are involved. [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.13]\n- A: Permissions, external facts and approvals can change. [Days_01_21_Master_Revision_Handbook.pdf p.44]",
+        "claims": 4,
+        "supported": 3
+      },
+      {
+        "id": "g15",
+        "refused": false,
+        "citations": [
+          "[Day_20_21_Memory_Reliability_Visual_Notes.pdf p.31]",
+          "[Day_20_21_Memory_Reliability_Visual_Notes.pdf p.26]"
+        ],
+        "latency_ms": 682,
+        "answer": "From your notes:\n- A trajectory is the sequence of decisions, tool actions and state changes that led to the [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.31]\n- trajectory = the path; outcome = what was achieved [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.31]\n- A reliable agent finishes the intended task correctly, safely, within limits, and leaves a [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.26]\n- Evaluate outcome, trajectory, safety and operations separately. One [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.26]",
+        "claims": 5,
+        "supported": 5
+      },
+      {
+        "id": "g16",
+        "refused": false,
+        "citations": [
+          "[Day_20_21_Memory_Reliability_Visual_Notes.pdf p.29]",
+          "[Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.10]"
+        ],
+        "latency_ms": 856,
+        "answer": "From your notes:\n- Watch live or sampled runs to catch failures the test suite never imagined. [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.29]\n- Offline evals estimate readiness; online experiments measure real traffic. [Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.10]\n- Online signals reveal real behaviour; offline tests make sure each fix stays fixed. [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.29]\n- Online evals and feedback loops [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.29]",
+        "claims": 4,
+        "supported": 4
+      },
+      {
+        "id": "g17",
+        "refused": false,
+        "citations": [
+          "[Day_20_21_Memory_Reliability_Visual_Notes.pdf p.36]",
+          "[Days_01_21_Master_Revision_Handbook.pdf p.46]",
+          "[Days_01_21_Master_Revision_Handbook.pdf p.45]"
+        ],
+        "latency_ms": 670,
+        "answer": "From your notes:\n- A trace links timed spans into one end-to-end record of where a request went. [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.36]\n- A trace captures a request; spans show retrieval, LLM calls, tool execution, cost and latency. [Days_01_21_Master_Revision_Handbook.pdf p.46]\n- Logs record events; traces show how operations relate and unfold across a whole request. [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.36]\n- Trace captures a complete request; spans show model calls, retrieval, tool actions [Days_01_21_Master_Revision_Handbook.pdf p.45]",
+        "claims": 4,
+        "supported": 4
+      },
+      {
+        "id": "g18",
+        "refused": false,
+        "citations": [
+          "[Day_20_21_Memory_Reliability_Visual_Notes.pdf p.40]",
+          "[Days_01_21_Master_Revision_Handbook.pdf p.49]"
+        ],
+        "latency_ms": 679,
+        "answer": "From your notes:\n- Retry temporary failures carefully; fail fast on permanent or unsafe ones. [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.40]\n- retry: 1s \u2192 2s \u2192 4s (+ jitter) [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.40]\n- Complete verified goal, ask human, compensate, retry safely or fail with typed explanation. [Days_01_21_Master_Revision_Handbook.pdf p.49]\n- bounded attempts, exponential backoff, jitter, retry hints [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.40]",
+        "claims": 4,
+        "supported": 4
+      },
+      {
+        "id": "g19",
+        "refused": false,
+        "citations": [
+          "[Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.4]"
+        ],
+        "latency_ms": 622,
+        "answer": "From your notes:\n- A versioned, curated benchmark of inputs, expected behaviour and metadata. [Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.4]\n- Golden datasets and test cases [Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.4]",
+        "claims": 2,
+        "supported": 2
+      },
+      {
+        "id": "g20",
+        "refused": false,
+        "citations": [
+          "[Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.3]",
+          "[Days_01_21_Master_Revision_Handbook.pdf p.6]"
+        ],
+        "latency_ms": 653,
+        "answer": "From your notes:\n- Fast cheap checks at the bottom, slow expensive journeys at the top. [Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.3]\n- Real applications need identity, input checks, monitoring, data rights and clear human fallback. [Days_01_21_Master_Revision_Handbook.pdf p.6]\n- Training fits parameters; validation helps select configurations; testing estimates generalization on held-out [Days_01_21_Master_Revision_Handbook.pdf p.6]",
+        "claims": 3,
+        "supported": 3
+      },
+      {
+        "id": "g21",
+        "refused": false,
+        "citations": [
+          "[Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.6]",
+          "[Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.26]",
+          "[Day_20_21_Memory_Reliability_Visual_Notes.pdf p.33]"
+        ],
+        "latency_ms": 660,
+        "answer": "From your notes:\n- A model scores outputs against an explicit rubric; humans calibrate it. [Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.6]\n- Score answer quality with an LLM judge, then check the judge against your own labels. [Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.26]\n- an LLM judge is not the authority for money, permissions, [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.33]\n- Code gives reliable checks for hard rules; LLM judges score nuance but need [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.33]",
+        "claims": 4,
+        "supported": 4
+      },
+      {
+        "id": "g22",
+        "refused": false,
+        "citations": [
+          "[Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.20]",
+          "[Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.38]"
+        ],
+        "latency_ms": 705,
+        "answer": "From your notes:\n- Detect, contain, investigate, recover, then make it a test. [Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.20]\n- Kill switch disables a capability independent of model behaviour [Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.20]\n- Add a kill switch flag that disables submit_leave in backend code [Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.38]\n- Simulate an incident end to end and write a blameless review. [Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.38]",
+        "claims": 4,
+        "supported": 2
+      },
+      {
+        "id": "g23",
+        "refused": false,
+        "citations": [
+          "[Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.16]",
+          "[Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.30]",
+          "[Day_22_23_AI_Security_Visual_Notes.pdf p.13]",
+          "[Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.36]"
+        ],
+        "latency_ms": 779,
+        "answer": "From your notes:\n- In AI, prompts, models, indexes and eval sets ship with the code. \u25b8 The release manifest [Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.16]\n- Run the eval suite only when prompts, retrieval or tool code change [Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.30]\n- treat prompts as observable; rules in the backend [Day_22_23_AI_Security_Visual_Notes.pdf p.13]\n- Deploy to staging automatically; run the smoke + eval suite there [Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.36]",
+        "claims": 4,
+        "supported": 4
+      },
+      {
+        "id": "g24",
+        "refused": false,
+        "citations": [
+          "[Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.13]",
+          "[Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.31]"
+        ],
+        "latency_ms": 679,
+        "answer": "From your notes:\n- An image is an immutable template; a container is a running instance of it. [Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.13]\n- Turn the backend into a small, reproducible, non-root container image. [Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.31]\n- Image vs container: the image is the packaged template; the container is it [Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.13]\n- Reproducible same image in staging + prod = predictable rollbacks [Day_24_25_Testing_Deployment_Notes_and_Assignments.pdf p.13]",
+        "claims": 4,
+        "supported": 3
+      },
+      {
+        "id": "g25",
+        "refused": false,
+        "citations": [
+          "[Days_01_21_Master_Revision_Handbook.pdf p.10]",
+          "[Days_01_21_Master_Revision_Handbook.pdf p.57]",
+          "[Day_20_21_Memory_Reliability_Visual_Notes.pdf p.3]"
+        ],
+        "latency_ms": 921,
+        "answer": "From your notes:\n- A: Temperature shapes distribution sharpness; top-p limits sampling to cumulative probability mass. [Days_01_21_Master_Revision_Handbook.pdf p.10]\n- Q: What is context window? [Days_01_21_Master_Revision_Handbook.pdf p.10]\n- 06. What is a context window? [Days_01_21_Master_Revision_Handbook.pdf p.57]\n- state + memory feed context, but only what the app CHOOSES to include [Day_20_21_Memory_Reliability_Visual_Notes.pdf p.3]",
+        "claims": 4,
+        "supported": 4
+      },
+      {
+        "id": "g26",
+        "refused": false,
+        "citations": [
+          "[Days_01_21_Master_Revision_Handbook.pdf p.29]",
+          "[Days_01_21_Master_Revision_Handbook.pdf p.64]",
+          "[Days_01_21_Master_Revision_Handbook.pdf p.30]",
+          "[Days_01_21_Master_Revision_Handbook.pdf p.60]"
+        ],
+        "latency_ms": 728,
+        "answer": "From your notes:\n- Lexical retrieval using keyword frequency, document length and term rarity. [Days_01_21_Master_Revision_Handbook.pdf p.29]\n- Reciprocal Rank Fusion of ranked lists. [Days_01_21_Master_Revision_Handbook.pdf p.64]\n- Reciprocal Rank Fusion adds 1/(k + rank) across rank lists; it blends ranking order without raw score calibration. [Days_01_21_Master_Revision_Handbook.pdf p.30]\n- Rank fusion adding reciprocal scores based on each candidate position. [Days_01_21_Master_Revision_Handbook.pdf p.60]",
+        "claims": 4,
+        "supported": 4
+      },
+      {
+        "id": "g27",
+        "refused": false,
+        "citations": [
+          "[Days_01_21_Master_Revision_Handbook.pdf p.24]"
+        ],
+        "latency_ms": 725,
+        "answer": "From your notes:\n- Understand why each building block matters in a working application. [Days_01_21_Master_Revision_Handbook.pdf p.24]\n- Overlap retains boundary context but causes duplication and can distort retrieval results. [Days_01_21_Master_Revision_Handbook.pdf p.24]\n- A: stride = chunk_size - overlap. [Days_01_21_Master_Revision_Handbook.pdf p.24]\n- Apply & explain: Document Chunking [Days_01_21_Master_Revision_Handbook.pdf p.24]",
+        "claims": 4,
+        "supported": 1
+      },
+      {
+        "id": "g28",
+        "refused": false,
+        "citations": [
+          "[Days_01_21_Master_Revision_Handbook.pdf p.42]",
+          "[Days_01_21_Master_Revision_Handbook.pdf p.62]"
+        ],
+        "latency_ms": 912,
+        "answer": "From your notes:\n- A: Metadata describing how to discover and use a remote agent. [Days_01_21_Master_Revision_Handbook.pdf p.42]\n- 51. What is A2A Agent Card? [Days_01_21_Master_Revision_Handbook.pdf p.62]\n- A: ACP is historical context; its ecosystem converged with A2A. [Days_01_21_Master_Revision_Handbook.pdf p.42]\n- Apply & explain: Agent-to-Agent (A2A) & [Days_01_21_Master_Revision_Handbook.pdf p.42]",
+        "claims": 4,
+        "supported": 3
+      },
+      {
+        "id": "g29",
+        "refused": false,
+        "citations": [
+          "[Days_01_21_Master_Revision_Handbook.pdf p.50]"
+        ],
+        "latency_ms": 970,
+        "answer": "From your notes:\n- MCP and A2A solve different connection problems and can coexist. [Days_01_21_Master_Revision_Handbook.pdf p.50]\n- MCP = agent application to tools/data. A2A = agent to independent agent. ACP = historical merger context. [Days_01_21_Master_Revision_Handbook.pdf p.50]\n- MCP + A2A: where each protocol fits [Days_01_21_Master_Revision_Handbook.pdf p.50]\n- An orchestrating agent can use MCP to call tools and A2A to delegate specialized remote agent [Days_01_21_Master_Revision_Handbook.pdf p.50]",
+        "claims": 6,
+        "supported": 6
+      },
+      {
+        "id": "g30",
+        "refused": false,
+        "citations": [
+          "[Days_01_21_Master_Revision_Handbook.pdf p.32]",
+          "[Days_01_21_Master_Revision_Handbook.pdf p.31]"
+        ],
+        "latency_ms": 888,
+        "answer": "From your notes:\n- A: Precision measures retrieved relevance; recall measures how much known relevant evidence was found. [Days_01_21_Master_Revision_Handbook.pdf p.32]\n- A: Versioned evaluation cases with trusted expected outcomes and relevant evidence. [Days_01_21_Master_Revision_Handbook.pdf p.32]\n- Apply & explain: RAG Evaluation & [Days_01_21_Master_Revision_Handbook.pdf p.32]\n- Measure retrieval and answer quality separately [Days_01_21_Master_Revision_Handbook.pdf p.31]",
+        "claims": 4,
+        "supported": 3
+      },
+      {
+        "id": "off1",
+        "refused": true,
+        "citations": [],
+        "latency_ms": 726,
+        "answer": "That's not in my notes."
+      },
+      {
+        "id": "off2",
+        "refused": true,
+        "citations": [],
+        "latency_ms": 662,
+        "answer": "That's not in my notes."
+      },
+      {
+        "id": "off3",
+        "refused": true,
+        "citations": [],
+        "latency_ms": 896,
+        "answer": "That's not in my notes."
+      },
+      {
+        "id": "off4",
+        "refused": true,
+        "citations": [],
+        "latency_ms": 730,
+        "answer": "That's not in my notes."
+      },
+      {
+        "id": "off5",
+        "refused": true,
+        "citations": [],
+        "latency_ms": 628,
+        "answer": "That's not in my notes."
+      },
+      {
+        "id": "off6",
+        "refused": true,
+        "citations": [],
+        "latency_ms": 782,
+        "answer": "That's not in my notes."
+      }
+    ]
+  }
+}
