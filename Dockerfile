@@ -26,8 +26,11 @@ COPY eval ./eval
 COPY scripts ./scripts
 COPY data/pdfs ./data/pdfs
 
+# data/state and logs are volume mount points: they must exist (owned by buddy) in the
+# image, so Docker initialises the named volumes with that owner instead of root
 RUN useradd --create-home --uid 10001 buddy \
-    && mkdir -p /app/data /app/logs && chown -R buddy:buddy /app /opt/hf
+    && mkdir -p /app/data/state /app/data/uploads /app/logs \
+    && chown -R buddy:buddy /app /opt/hf
 USER buddy
 
 EXPOSE 8080 8501
